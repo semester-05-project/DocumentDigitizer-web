@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+*{
+  	outline: none !important;
+}
+
+body{
+	font-family: 'Poppins', sans-serif;
+	scrollbar-width: none;
+	margin: 0;
+	padding: 0;
+}
+body::-webkit-scrollbar{
+  	display: none;
+}
+
+.navbar.fixed-top{
+    background: #121212;
+}
+
+.hero{
+    width: 100vw;
+    max-height: 100vh;
+    /* background: rgb(44,224,198);
+    background: linear-gradient(90deg, rgba(44,224,198,1) 42%, rgba(0,212,255,1) 100%); */
+}
+
+.hero-image{
+    width: 100%;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+.hero-text{
+    z-index: 1;
+    top: 50%;
+}
+
+.image-cap{
+    /* height: 300px; */
+    width: 300px;
+}
+
+.technologies-section{
+    background: rgb(220, 219, 219);
+}
+
+
+/* social media icons */
+.icons a{
+    text-decoration: none;
+    list-style: none;
+    font-size: 1.2rem;
+    background: #4267B24d;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    transition: .4s ease-in;
+}
+
+.icons a:hover{
+    border-radius: 50%;
+}
+
+.icons .fa-facebook-f{
+    color: #4267B2;
+}
+.icons .fa-whatsapp{
+    color: #25944e;
+}
+.icons .fa-envelope{
+    color: #BB001B;
+}
+
+.login,
+.register,
+.join-link{
+    text-decoration: none;
+}
+
+.login-container,
+.register-container{
+    height: 100vh;
+    justify-content: center;
+}
+
+.left-col{
+    height: 100%;
+    background: #2ce0c6;
+    background: linear-gradient(90deg, rgba(44,224,198,1) 42%, rgba(0,212,255,1) 100%);
+}
+.right-col{
+    height: 100%;
+    background: rgb(58,66,65);
+    background: linear-gradient(90deg, rgba(58,66,65,1) 38%, rgba(0,41,50,1) 100%);
+}
+
+.login-card,
+.register-card{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    border: none;
+}
+.signup-link a,
+.login-link a{
+    text-decoration: none;
+    color: #2ce0c6;
+}
