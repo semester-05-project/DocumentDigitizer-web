@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Login, Register } from './components';
 
 function App() {
-	return (
+
+    return (
         <Router>
             <div className="App">
                 <Switch>
@@ -18,8 +19,8 @@ function App() {
                 </Switch>
             </div>
         </Router>
-		
-	);
+
+    );
 }
 
 export default App;
