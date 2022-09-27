@@ -10,15 +10,12 @@ const Home = () => {
             <Navigation />
 
             <section className='hero bg-light row m-0 p-0 row justify-content-center'>
-                {/* <div className="hero-image col-10 p-0 m-0 text-center mt-5">
-                    <img src={images.hero} alt="hero image" style={{height: "350px", width: "350px"}} />
-                </div> */}
-                <img src={images.bg_scanning} alt="bg-scanning" className='hero-image p-0 m-0' />
+                <img src={images.bg_scanning} alt="" className='hero-image p-0 m-0' />
                 <div className="hero-text col-6 px-4 m-0 text-center position-absolute">
                     <h1 className="display-5">Digitize your documents & make your lives easier</h1>
-                    <button className='join btn btn-dark px-4 mt-3' type='button'>
-                        <Link to="/login" className='text-light join-link'>Join Today</Link>
-                    </button>
+                    <Link to="/login" className='text-light join-link'>
+                        <button className="join btn btn-dark px-4 mt-3">Join Today</button>
+                    </Link>
                 </div>
             </section>
 
@@ -38,10 +35,15 @@ const Home = () => {
                         <p>Manage the same account with multiple devices and keep in sync with your progress</p>
                     </div>
 
+                    <div className="features my-5">
+                        <h3 className='my-2'>Edit Saves</h3>
+                        <p>Do not worry about making mistakes when creating the pdf files</p>
+                    </div>
+
                 </div>
 
                 <div className="col-4 text-center">
-                    <img src={images.scanner_image} alt="hero-image" className='image-cap' />
+                    <img src={images.scanner_image} alt="" className='image-cap' />
                 </div>
 
                 <div className="col-3 text-center d-flex flex-column mt-4">
@@ -56,38 +58,37 @@ const Home = () => {
                         <p>Share your scanned documents with friends easily via multiple platforms</p>
                     </div>
 
+                    <div className="features my-5">
+                        <h3 className='my-2'>No network issues</h3>
+                        <p>We will take care of resuming the file uploading when your network is back online</p>
+                    </div>
+
                 </div>
 
             </section>
 
-            <section className='technologies-section row m-0 p-4 py-5'>
+            <section className='fixed-background technologies-section row m-0 p-4 py-5 bg-transparent'>
 
-                <div className="row">
+                <div className="container">
+                    <div className="row">
 
-                    <div className="col-7 my-5 px-5 mx-5">
-                        <h3 className='lead fs-2'>Technology one</h3>
-                        <p className='text-left'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, dicta error! Sunt quis sapiente, consequatur veritatis et, quae, nulla nobis incidunt veniam sit officia deleniti sint suscipit delectus consectetur! Placeat.</p>
+                        <div className="col-10 my-5 px-5 mx-auto text-center">
+                            <h3 className='lead fs-2'>Better Security</h3>
+                            <p className='lead mt-2'>Our platform uses the authentication functionalities provided by firebase which saves your private data in a highly secured database. We provide you with easy sign-in using only your email, password and a username of your choice.</p>
+                        </div>
+
+                        <div className="col-10 my-5 px-5 mx-auto text-center">
+                            <h3 className='lead fs-2'>High Performance</h3>
+                            <p className='lead mt-2'>Enjoy our functionalities without waiting for too long. All the online tools provided by us are free to use for any user.</p>
+                        </div>
+
                     </div>
-
-                    <div className="col-3 text-center d-flex justify-content-center">
-                        image cap
-                    </div>
-
                 </div>
+                
+                <div className="fixed-wrap">
+                    <div className="fixed" style={{backgroundImage: `url(${images.fixedBackground})`}}>
 
-                <hr className='my-3'/>
-
-                <div className="row">
-                    
-                    <div className="col-3 text-center d-flex justify-content-center">
-                        image cap
                     </div>
-
-                    <div className="col-7 my-5 px-5 mx-5 text-end">
-                        <h3 className='lead fs-2'>Technology two</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, dicta error! Sunt quis sapiente, consequatur veritatis et, quae, nulla nobis incidunt veniam sit officia deleniti sint suscipit delectus consectetur! Placeat.</p>
-                    </div>
-
                 </div>
 
             </section>
@@ -137,7 +138,7 @@ const Home = () => {
             <Footer />
 
         </div>
-    )
-}
+    );
+};
 
 export default Home;

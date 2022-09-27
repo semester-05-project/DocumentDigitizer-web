@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Home, Login, Register } from './components';
+import { Home, Login, Register, Profile } from './components';
 
 function App() {
 	return (
@@ -14,6 +14,9 @@ function App() {
                     </Route>
                     <Route path="/register">
                         <Register />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
                     </Route>
                 </Switch>
             </div>
