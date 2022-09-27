@@ -14,14 +14,18 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //             window.location = '/'
+    //             console.log("You are already registered");
+    //         }
+    //     });
+    // })
+
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.location = '/'
-                console.log("You are already signed in")
-            }
-        });
-    })
+        console.log(error);
+    }, [error]);
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
@@ -45,15 +49,17 @@ const Register = () => {
             setError("Password should be match");
             return;
         }
-        // const { user } = createUserWithEmailAndPassword(auth, email, password)
-        //     .then((userCredential) => {
-        //         // Set the local storage
-        //         console.log(userCredential)
-        //         const user = userCredential.user
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     })
+
+        const { user } = createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Set the local storage
+                console.log(userCredential)
+                const user = userCredential.user
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
         await addDoc(collection(db, 'users'), {
             email: email,
             username: username
@@ -61,6 +67,8 @@ const Register = () => {
             console.log(res)
         }).catch((err) => { console.log(err) });
     }
+
+
     return (
         <div>
             <Navigation />

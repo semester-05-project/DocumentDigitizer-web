@@ -7,13 +7,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../javascript/firebase';
 
 const Home = () => {
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // window.location = '/login';
-            }
-        });
-    })
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //             // window.location = '/login';
+    //         }
+    //     });
+    // })
 
     return (
         <div>

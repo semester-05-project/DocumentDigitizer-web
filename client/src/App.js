@@ -3,6 +3,17 @@ import { Home, Login, Register, Profile } from './components';
 
 function App() {
 
+    const currentUser = true;
+
+    const RequireAuth = ({ children }) => {
+        if (currentUser){
+            return (children);
+        }
+        else{
+            window.location = "/";
+        }
+    }
+
     return (
         <Router>
             <div className="App">
@@ -17,7 +28,9 @@ function App() {
                         <Register />
                     </Route>
                     <Route path="/profile">
-                        <Profile />
+                        <RequireAuth>
+                            <Profile />
+                        </RequireAuth>
                     </Route>
                 </Switch>
             </div>

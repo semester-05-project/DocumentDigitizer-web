@@ -10,14 +10,14 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // window.location = '/'
-                console.log("You are already signed in")
-            }
-        });
-    })
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //             // window.location = '/profile'
+    //             console.log("You are already signed in")
+    //         }
+    //     });
+    // })
     const onFormSubmit = (e) => {
         if (!email) {
             alert("Enter Email");
@@ -31,8 +31,9 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Set the local storage
-                console.log(userCredential)
-                const user = userCredential.user
+                // console.log(userCredential)
+                const user = userCredential.user;
+                window.location = "/profile";
             })
             .catch((error) => {
                 // setError = error

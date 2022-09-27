@@ -7,7 +7,7 @@ import Footer from './Footer';
 import Convertor from './Convertor';
 import Merge from './Merge';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from '../firebase';
+import { storage } from '../javascript/firebase';
 import firebase from 'firebase/compat/app';
 
 
@@ -182,6 +182,12 @@ const Profile = () => {
                     <div className="documents container d-flex flex-column m-0 p-0">
                         {allFiles.map(item => {
                             return (
+                                // <a href={item.url} key={Math.random(10)} target="_blank" rel='noreferrer' className='text-decoration-none text-dark'>
+                                //     <div className="doc-file d-flex bg-white rounded-3 text-start m-2 p-3 overflow-hidden" key={item.name}>
+                                //         <i className='fa fa-file fs-1'></i>
+                                //         <small className='filename mx-4'>{item.name}</small>
+                                //     </div>
+                                // </a> 
                                 <section className={`uploaded-area p-3 rounded mb-2`} key={uuid()}>
                                     <li className="row d-flex">
                                         <div className="content d-flex col-9">
