@@ -16,9 +16,6 @@ const Profile = () => {
     const [doc, setDoc] = useState("");
     const [perc, setPerc] = useState(0);
     const [allFiles, setAllFiles] = useState([]);
-    // const [fileNames, setFileNames] = useState([]);
-    // const [fileURLs, setFileURLs] = useState([]);
-
     const [activeComponent, setActiveComponent] = useState("convertor");
 
     const handleDocInput = (e) => {
@@ -30,97 +27,126 @@ const Profile = () => {
         setDoc(event.target.files[0]);
     }
 
-    useEffect(() => {
-        const uploadFile = () => {
+    const listAllFiles = (folder) => {
+        const storageRef = firebase.storage().ref();
+    
+        const listRef = storageRef.child(folder);
+    
+        listRef.listAll()
+            .then((res) => {
+                res.prefixes.forEach((folderRef) => {
+                    // pass
+                });
+                res.items.forEach((itemRef) => {
+                    itemRef.getDownloadURL().then((url) => {
+                        let item = {name: itemRef.name, url: url};
+                        setAllFiles(allFiles => [...allFiles, item]);
+                        
+                    });
+                });
+                
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
-            const storageRef = ref(storage, `dpYbwJSlCGrVUU7ephe0/${doc.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, doc);
+    const uploadFile = () => {
 
-            // Register three observers:
-            // 1. 'state_changed' observer, called any time the state changes
-            // 2. Error observer, called on failure
-            // 3. Completion observer, called on successful completion
-            uploadTask.on('state_changed', 
-            (snapshot) => {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-                setPerc(progress);
-                switch (snapshot.state) {
-                case 'paused':
-                    console.log('Upload is paused');
+        const storageRef = ref(storage, `dpYbwJSlCGrVUU7ephe0/${doc.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, doc);
+
+        // Register three observers:
+        // 1. 'state_changed' observer, called any time the state changes
+        // 2. Error observer, called on failure
+        // 3. Completion observer, called on successful completion
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            setPerc(progress);
+            switch (snapshot.state) {
+            case 'paused':
+                console.log('Upload is paused');
+                break;
+            case 'running':
+                console.log('Upload is running');
+                break;
+            default:
+                break;
+            }
+        }, 
+        (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    // User doesn't have permission to access the object
+                    console.log("Permission denied");
                     break;
-                case 'running':
-                    console.log('Upload is running');
+                case 'storage/canceled':
+                    // User canceled the upload
+                    console.log("Cancelled by the user");
+                    break;
+                case 'storage/unknown':
+                    // Unknown error occurred, inspect error.serverResponse
+                    console.log("Unknown error occurred");
                     break;
                 default:
                     break;
-                }
-            }, 
-            (error) => {
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        // User doesn't have permission to access the object
-                        console.log("Permission denied");
-                        break;
-                    case 'storage/canceled':
-                        // User canceled the upload
-                        console.log("Cancelled by the user");
-                        break;
-                    case 'storage/unknown':
-                        // Unknown error occurred, inspect error.serverResponse
-                        console.log("Unknown error occurred");
-                        break;
-                    default:
-                        break;
-                }
-            }, 
-            () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                });
             }
-            );
-
+        }, 
+        () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+            });
+            listAllFiles('dpYbwJSlCGrVUU7ephe0/');
         }
+        );
 
+    }
+
+    useEffect(() => {
         doc && uploadFile();
-
     }, [doc]);
 
     useEffect(() => {
-        const listAllFiles = (folder) => {
-            const storageRef = firebase.storage().ref();
-        
-            const listRef = storageRef.child(folder);
-        
-            listRef.listAll()
-                .then((res) => {
-                    res.prefixes.forEach((folderRef) => {
-                        // pass
-                    });
-                    res.items.forEach((itemRef) => {
-                        itemRef.getDownloadURL().then((url) => {
-                            let item = {name: itemRef.name, url: url};
-                            setAllFiles(allFiles => [...allFiles, item]);
-                            
-                        });
-                    });
-                    
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-
         listAllFiles('dpYbwJSlCGrVUU7ephe0/');
-
     }, []);
+
+    const getAllFiles = () => {
+        const itemNames = [];
+        const docElementList = [];
+        allFiles.map((item) => {
+            if (! itemNames.includes(item.name)){
+                itemNames.push(item.name);
+                docElementList.push(
+                    <section className={`uploaded-area p-3 rounded mb-2`} key={uuid()}>
+                        <li className="row d-flex">
+                            <div className="content d-flex col-9">
+                                <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
+                                <div className="details col-11 d-flex flex-column ps-2 overflow-hidden">
+                                    <small className="name">{item && item.name}</small>
+                                    {/* <small className="size fw-4">{file && (item.size/1024 < 1024) ? (item.size / 1024).toFixed(2) + " KB" : (item.size / (1024*1024)).toFixed(2) + " MB"}</small> */}
+                                </div>
+                            </div>
+                            <div className="options col-3 row justify-content-center">
+                                <i className="fas fa-trash col-1 text-danger ms-1"></i>
+                                <i className="fas fa-edit col-1 ms-1"></i>
+                                <a href={item.url} target="_blank" rel='noreferrer' className='col-1 ms-1'><i className="fas fa-link text-primary"></i></a>
+                            </div>
+                            
+                        </li>
+                    </section>
+                );
+            }
+        });
+        return docElementList;
+    }
 
     return (
         <div>
@@ -180,34 +206,7 @@ const Profile = () => {
                     </div>
 
                     <div className="documents container d-flex flex-column m-0 p-0">
-                        {allFiles.map(item => {
-                            return (
-                                // <a href={item.url} key={Math.random(10)} target="_blank" rel='noreferrer' className='text-decoration-none text-dark'>
-                                //     <div className="doc-file d-flex bg-white rounded-3 text-start m-2 p-3 overflow-hidden" key={item.name}>
-                                //         <i className='fa fa-file fs-1'></i>
-                                //         <small className='filename mx-4'>{item.name}</small>
-                                //     </div>
-                                // </a> 
-                                <section className={`uploaded-area p-3 rounded mb-2`} key={uuid()}>
-                                    <li className="row d-flex">
-                                        <div className="content d-flex col-9">
-                                            <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
-                                            <div className="details col-11 d-flex flex-column ps-2 overflow-hidden">
-                                                <small className="name">{item && item.name}</small>
-                                                {/* <small className="size fw-4">{file && (item.size/1024 < 1024) ? (item.size / 1024).toFixed(2) + " KB" : (item.size / (1024*1024)).toFixed(2) + " MB"}</small> */}
-                                            </div>
-                                        </div>
-                                        <div className="options col-3 row justify-content-center">
-                                            <i className="fas fa-trash col-1 text-danger ms-1"></i>
-                                            <i className="fas fa-edit col-1 ms-1"></i>
-                                            <a href={item.url} target="_blank" rel='noreferrer' className='col-1 ms-1'><i className="fas fa-link text-primary"></i></a>
-                                        </div>
-                                        
-                                    </li>
-                                </section>
-                            );
-                            
-                        })}
+                        {getAllFiles()}
                     </div>
                     
                 </section>
