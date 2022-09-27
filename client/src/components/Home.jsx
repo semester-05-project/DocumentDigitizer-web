@@ -1,14 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import { images } from '../javascript/imageImports.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../javascript/firebase';
 
 const Home = () => {
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // window.location = '/login';
+            }
+        });
+    })
+
     return (
         <div>
             <Navigation />
-
             <section className='hero bg-light row m-0 p-0 row justify-content-center'>
                 <img src={images.bg_scanning} alt="" className='hero-image p-0 m-0' />
                 <div className="hero-text col-6 px-4 m-0 text-center position-absolute">
@@ -96,41 +105,41 @@ const Home = () => {
             <section className="testimonials bg-light row justify-content-center m-0 p-0 pb-5">
                 <h1 className="display-6 my-5 text-center">Testimonials</h1>
                 <div className="col-10">
-                <div id="testimonial-carousel" className="carousel carousel-dark slide" data-bs-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item active" data-bs-interval="10000">
-                            <div className="card my-4 mx-auto px-5 text-center" style={{width: "30rem"}}>
-                                <div className="card-body">
-                                    <h5 className="card-title my-3">Username one</h5>
-                                    <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div id="testimonial-carousel" className="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div className="carousel-inner">
+                            <div className="carousel-item active" data-bs-interval="10000">
+                                <div className="card my-4 mx-auto px-5 text-center" style={{ width: "30rem" }}>
+                                    <div className="card-body">
+                                        <h5 className="card-title my-3">Username one</h5>
+                                        <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <div className="card my-4 mx-auto px-5 text-center" style={{ width: "30rem" }}>
+                                    <div className="card-body">
+                                        <h5 className="card-title my-3">Username two</h5>
+                                        <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="carousel-item">
+                                <div className="card my-4 mx-auto px-5 text-center" style={{ width: "30rem" }}>
+                                    <div className="card-body">
+                                        <h5 className="card-title my-3">Username three</h5>
+                                        <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="carousel-item" data-bs-interval="2000">
-                            <div className="card my-4 mx-auto px-5 text-center" style={{width: "30rem"}}>
-                                <div className="card-body">
-                                    <h5 className="card-title my-3">Username two</h5>
-                                    <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="card my-4 mx-auto px-5 text-center" style={{width: "30rem"}}>
-                                <div className="card-body">
-                                    <h5 className="card-title my-3">Username three</h5>
-                                    <p className="card-text my-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
+                        <button className="carousel-control-prev" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
             </section>
