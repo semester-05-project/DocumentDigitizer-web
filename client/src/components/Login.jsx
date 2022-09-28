@@ -10,16 +10,14 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const {dispatch} = useContext(AuthContext);
+    const {dispatch, currentUser} = useContext(AuthContext);
 
-    // useEffect(() => {
-    //     onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             // window.location = '/profile'
-    //             console.log("You are already signed in")
-    //         }
-    //     });
-    // })
+    useEffect(() => {
+        if (currentUser){
+            window.location = "/profile";
+        }
+    }, [currentUser]);
+    
     const onFormSubmit = (e) => {
         if (!email) {
             alert("Enter Email");

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../javascript/firebase';
 import { addDoc, collection } from "firebase/firestore";
+import { AuthContext } from '../context/AuthContext';
 
 
 
@@ -14,14 +15,13 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // useEffect(() => {
-    //     onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             window.location = '/'
-    //             console.log("You are already registered");
-    //         }
-    //     });
-    // })
+    const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (currentUser){
+            window.location = "/profile";
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         console.log(error);
