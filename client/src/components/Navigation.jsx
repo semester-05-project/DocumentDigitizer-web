@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
+import { AuthContext } from '../context/AuthContext';
+import Logout from './Logout';
 
 const Navigation = (props) => {
+
+    const {currentUser} = useContext(AuthContext);
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 
@@ -22,7 +27,7 @@ const Navigation = (props) => {
                             <HashLink className="nav-link active text-center" aria-current="page" to="/">Home</HashLink >
                         </li>
                         
-                        {props.logged && 
+                        {currentUser && 
                         <li className="nav-item dropdown col-2 d-flex flex-column align-self-center">
                             <HashLink className="nav-link text-center dropdown-toggle" to="#" id='navbarDropdownMenuLink' role="button" data-bs-toggle="dropdown" aria-expanded="false">Features</HashLink >
                             <ul className='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
@@ -39,16 +44,16 @@ const Navigation = (props) => {
                         </li>
 
                         <li className='col-6 d-flex flex-row justify-content-end'>
-                            {! props.logged && <Link to="/login" className='login'>
+                            {! currentUser && <Link to="/login" className='login'>
                                 <button className='btn btn-outline-light px-4 mx-3'>Login</button>
                             </Link>}
-                            {! props.logged && <Link to="/register" className='register'>
+                            {! currentUser && <Link to="/register" className='register'>
                                 <button className='btn btn-light px-4 mx-3'>Register</button>
                             </Link>}
-                            {props.logged && <p className='greeting my-auto'>Hello Akash!!!</p>}
-                            {props.logged && <Link to="/logout" className='login'>
-                                <button className='btn btn-outline-danger px-4 mx-3'>Logout</button>
-                            </Link>}
+                            {currentUser && <p className='greeting my-auto'>Hello Akash!!!</p>}
+                            {currentUser && <button className='logout btn btn-outline-danger px-4 mx-3' data-bs-toggle="modal" data-bs-target="#logout-modal" data-bs-dismiss="modal">Logout</button>}
+
+                            <Logout />
                         </li>
 
                     </ul>
