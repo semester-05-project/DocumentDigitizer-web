@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../javascript/firebase';
-
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const {dispatch} = useContext(AuthContext);
 
     // useEffect(() => {
     //     onAuthStateChanged(auth, (user) => {
@@ -33,6 +35,7 @@ const Login = () => {
                 // Set the local storage
                 // console.log(userCredential)
                 const user = userCredential.user;
+                dispatch({ type: "LOGIN", payload: user });
                 window.location = "/profile";
             })
             .catch((error) => {
