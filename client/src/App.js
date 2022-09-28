@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Login, Register, Profile } from './components';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
 
 function App() {
 
-    const currentUser = true;
+    const {currentUser} = useContext(AuthContext);
 
     const RequireAuth = ({ children }) => {
         if (currentUser){
