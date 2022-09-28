@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
 
@@ -9,9 +9,12 @@ import Merge from './Merge';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from '../javascript/firebase';
 import firebase from 'firebase/compat/app';
+import { AuthContext } from '../context/AuthContext';
 
 
 const Profile = () => {
+
+    const { currentUser } = useContext(AuthContext);
     
     const [doc, setDoc] = useState("");
     const [perc, setPerc] = useState(0);
@@ -51,9 +54,9 @@ const Profile = () => {
             });
     }
 
-    const uploadFile = () => {
+    const uploadFile = (folder) => {
 
-        const storageRef = ref(storage, `dpYbwJSlCGrVUU7ephe0/${doc.name}`);
+        const storageRef = ref(storage, `${folder}/${doc.name}`);
         const uploadTask = uploadBytesResumable(storageRef, doc);
 
         // Register three observers:
@@ -111,11 +114,11 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        doc && uploadFile();
+        doc && uploadFile(currentUser.uid);
     }, [doc]);
 
     useEffect(() => {
-        listAllFiles('dpYbwJSlCGrVUU7ephe0/');
+        listAllFiles(currentUser.uid);
     }, []);
 
     const getAllFiles = () => {
