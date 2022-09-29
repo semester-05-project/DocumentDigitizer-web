@@ -93,6 +93,7 @@ const Register = () => {
         if (valid){
             const { user } = createUserWithEmailAndPassword(auth, email, password)
             .then(async (userCredential) => {
+                console.log(user);
                 const user = userCredential.user;
                 console.log(user);
 

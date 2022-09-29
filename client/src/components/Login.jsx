@@ -4,6 +4,7 @@ import Navigation from './Navigation';
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../javascript/firebase';
 import { AuthContext } from '../context/AuthContext';
+import e from 'cors';
 
 const Login = () => {
     const [error, setError] = useState("");
@@ -43,7 +44,7 @@ const Login = () => {
                     window.location = "/profile";
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(error.toString());
                     setError("Authentication Error");
                 })
         }
@@ -61,7 +62,7 @@ const Login = () => {
                         <h1 className="display-6 text-center mt-3">LOGIN</h1>
                         <form className='p-5 text-center needs-validation' noValidate onSubmit={onFormSubmit}>
                             <div className="form-floating mb-3">
-                                <input type="email" className={`form-control ${error ? "is-invalid" : ""}`} id='emailInput' placeholder='name@example.com' onChange={e => setEmail(e.target.value)} />
+                                <input type="email" className={`form-control ${error ? "is-invalid" : ""}`} id='emailInput' placeholder='name@example.com' onChange={e => setEmail(e.target.value)} value={email} />
                                 <label htmlFor="emailInput">Email Address</label>
                             </div>
                             <div className="form-floating mb-3">
