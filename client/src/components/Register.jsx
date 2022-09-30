@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../javascript/firebase';
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 
 
@@ -17,7 +17,7 @@ const Register = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location = '/'
+                // window.location = '/'
                 console.log("You are already signed in")
             }
         });
@@ -45,21 +45,21 @@ const Register = () => {
             setError("Password should be match");
             return;
         }
-        // const { user } = createUserWithEmailAndPassword(auth, email, password)
-        //     .then((userCredential) => {
-        //         // Set the local storage
-        //         console.log(userCredential)
-        //         const user = userCredential.user
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     })
-        await addDoc(collection(db, 'users'), {
-            email: email,
-            username: username
-        }).then((res) => {
-            console.log(res)
-        }).catch((err) => { console.log(err) });
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const uid = userCredential.user.uid
+                localStorage.setItem('user_id', JSON.stringify(uid));
+
+                setDoc(doc(db, "users", uid), {
+                    email: email,
+                    username: username
+                }).then((res) => {
+                    console.log(res)
+                }).catch((err) => { console.log(err) });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
     return (
         <div>
@@ -88,7 +88,8 @@ const Register = () => {
                                 <label htmlFor="confirmPswInput">Confirm Password</label>
                             </div>
                             <div>
-                                {error && "oempmna"}</div>
+                                {error && "oempmna"}
+                            </div>
                             <button type="submit" className="btn btn-outline-info px-5" onClick={onFormSubmit}>Submit</button>
                             <div>
                                 <h1 className="lead mt-3">Already have an account?</h1>

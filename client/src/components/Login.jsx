@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from '../javascript/firebase';
 
 
@@ -13,12 +13,14 @@ const Login = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // window.location = '/'
+                signOut(auth)
+                window.location = '/'
                 console.log("You are already signed in")
             }
         });
     })
     const onFormSubmit = (e) => {
+        e.preventDefault();
         if (!email) {
             alert("Enter Email");
             return;
@@ -27,12 +29,14 @@ const Login = () => {
             alert("Enter password");
             return;
         }
-        e.preventDefault();
+        e.preventDefault()
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Set the local storage
-                console.log(userCredential)
-                const user = userCredential.user
+
+                const uid = userCredential.user.uid;
+                localStorage.setItem('user_id', JSON.stringify(uid));
+                // window.location = '/home'
             })
             .catch((error) => {
                 // setError = error
