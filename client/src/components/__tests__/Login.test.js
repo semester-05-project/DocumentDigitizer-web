@@ -95,21 +95,21 @@ describe('Form behaviour', () => {
     //     expect(error).toEqual('FirebaseError: Firebase: Error (auth/wrong-password).');
     // });
 
-    it('Signing in with wrong password too many times should throw too many requests error', async () => {
-        let error = '';
-        try{
-            await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword');
-            await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword2');
-            await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword3');
-            await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword4');
-            await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword5');
-        }
-        catch (err){
-            error = err.toString();
-        }
+    // it('Signing in with wrong password too many times should throw too many requests error', async () => {
+    //     let error = '';
+    //     try{
+    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword');
+    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword2');
+    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword3');
+    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword4');
+    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword5');
+    //     }
+    //     catch (err){
+    //         error = err.toString();
+    //     }
 
-        expect(error).toEqual('FirebaseError: Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).');
-    });
+    //     expect(error).toEqual('FirebaseError: Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).');
+    // });
 
     it('Should login with correct credentials', async () => {
         const user = await signInWithEmailAndPassword(auth, 'tharukaeaa.19@gmail.com', 'test1234');

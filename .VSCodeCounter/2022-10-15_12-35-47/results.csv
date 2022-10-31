@@ -1,0 +1,39 @@
+"filename", "language", "JSON", "Properties", "JavaScript", "Markdown", "HTML", "CSS", "JavaScript React", "comment", "blank", "total"
+"d:\WebDev\document-digitizer-web\.env", "Properties", 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\WebDev\document-digitizer-web\client\.env", "Properties", 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\WebDev\document-digitizer-web\client\README.md", "Markdown", 0, 0, 0, 38, 0, 0, 0, 0, 33, 71
+"d:\WebDev\document-digitizer-web\client\package-lock.json", "JSON", 13026, 0, 0, 0, 0, 0, 0, 0, 1, 13027
+"d:\WebDev\document-digitizer-web\client\package.json", "JSON", 46, 0, 0, 0, 0, 0, 0, 0, 1, 47
+"d:\WebDev\document-digitizer-web\client\public\css\index.css", "CSS", 0, 0, 0, 0, 0, 185, 0, 115, 25, 325
+"d:\WebDev\document-digitizer-web\client\public\index.html", "HTML", 0, 0, 0, 0, 31, 0, 0, 0, 2, 33
+"d:\WebDev\document-digitizer-web\client\src\App.js", "JavaScript", 0, 0, 38, 0, 0, 0, 0, 0, 7, 45
+"d:\WebDev\document-digitizer-web\client\src\___mock__\axios.js", "JavaScript", 0, 0, 21, 0, 0, 0, 0, 0, 2, 23
+"d:\WebDev\document-digitizer-web\client\src\components\Convertor.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 68, 3, 15, 86
+"d:\WebDev\document-digitizer-web\client\src\components\Footer.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 16, 0, 2, 18
+"d:\WebDev\document-digitizer-web\client\src\components\Home.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 118, 7, 28, 153
+"d:\WebDev\document-digitizer-web\client\src\components\Login.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 79, 3, 12, 94
+"d:\WebDev\document-digitizer-web\client\src\components\Logout.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 27, 2, 5, 34
+"d:\WebDev\document-digitizer-web\client\src\components\Merge.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 13, 0, 2, 15
+"d:\WebDev\document-digitizer-web\client\src\components\Navigation.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 51, 0, 18, 69
+"d:\WebDev\document-digitizer-web\client\src\components\Profile.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 181, 25, 29, 235
+"d:\WebDev\document-digitizer-web\client\src\components\Register.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 144, 4, 25, 173
+"d:\WebDev\document-digitizer-web\client\src\components\UploadModal.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 118, 7, 16, 141
+"d:\WebDev\document-digitizer-web\client\src\components\__tests__\Login.test.js", "JavaScript", 0, 0, 71, 0, 0, 0, 0, 27, 26, 124
+"d:\WebDev\document-digitizer-web\client\src\components\__tests__\Register.test.js", "JavaScript", 0, 0, 155, 0, 0, 0, 0, 0, 52, 207
+"d:\WebDev\document-digitizer-web\client\src\components\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 4
+"d:\WebDev\document-digitizer-web\client\src\context\AuthContext.js", "JavaScript", 0, 0, 17, 0, 0, 0, 0, 0, 5, 22
+"d:\WebDev\document-digitizer-web\client\src\context\AuthReducer.js", "JavaScript", 0, 0, 17, 0, 0, 0, 0, 0, 1, 18
+"d:\WebDev\document-digitizer-web\client\src\firebase-old.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 14, 3, 17
+"d:\WebDev\document-digitizer-web\client\src\index.js", "JavaScript", 0, 0, 12, 0, 0, 0, 0, 0, 2, 14
+"d:\WebDev\document-digitizer-web\client\src\javascript\firebase.js", "JavaScript", 0, 0, 18, 0, 0, 0, 0, 4, 3, 25
+"d:\WebDev\document-digitizer-web\client\src\javascript\imageImports.js", "JavaScript", 0, 0, 10, 0, 0, 0, 0, 0, 1, 11
+"d:\WebDev\document-digitizer-web\client\src\javascript\navScrollChange.js", "JavaScript", 0, 0, 12, 0, 0, 0, 0, 0, 1, 13
+"d:\WebDev\document-digitizer-web\client\src\javascript\profilePage.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 2, 0, 2
+"d:\WebDev\document-digitizer-web\controllers\convert.controllers.js", "JavaScript", 0, 0, 61, 0, 0, 0, 0, 2, 13, 76
+"d:\WebDev\document-digitizer-web\javascript\convertToPdf.js", "JavaScript", 0, 0, 34, 0, 0, 0, 0, 0, 5, 39
+"d:\WebDev\document-digitizer-web\package-lock.json", "JSON", 1317, 0, 0, 0, 0, 0, 0, 0, 1, 1318
+"d:\WebDev\document-digitizer-web\package.json", "JSON", 37, 0, 0, 0, 0, 0, 0, 0, 1, 38
+"d:\WebDev\document-digitizer-web\routes\upload.routes.js", "JavaScript", 0, 0, 49, 0, 0, 0, 0, 6, 13, 68
+"d:\WebDev\document-digitizer-web\server.js", "JavaScript", 0, 0, 23, 0, 0, 0, 0, 0, 5, 28
+"d:\WebDev\document-digitizer-web\services\converter.js", "JavaScript", 0, 0, 38, 0, 0, 0, 0, 2, 7, 47
+"Total", "-", 14426, 2, 580, 38, 31, 185, 815, 223, 362, 16662
