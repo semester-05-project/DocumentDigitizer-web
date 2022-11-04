@@ -168,9 +168,24 @@ body::-webkit-scrollbar{
 
 /* upload modal */
 .wrapper form{
-    border: 2px dashed #6990F2;
     cursor: pointer;
-    color: #6990F2;
+}
+.wrapper form.docx{
+	border: 2px dashed #6990F2;
+	color: #6990F2;
+}
+.wrapper form.xlsx{
+	border: 2px dashed #198754;
+	color: #198754;
+}
+.wrapper form.pptx{
+	border: 2px dashed #dc3545;
+	color: #dc3545;
+}
+.wrapper form.png,
+.wrapper form.jpg{
+	border: 2px dashed #adb5bd;
+	color: #adb5bd;
 }
 .wrapper.doc-upload form{
     border: 2px dashed #2ce0c6;
@@ -192,8 +207,28 @@ body::-webkit-scrollbar{
 }
 .progress-area,
 .uploaded-area{
-    background: #E9F0FF;
+    /* background: #E9F0FF; */
     transition: 0.3s ease-in-out;
+}
+.progress-area.xlsx,
+.uploaded-area.xlsx{
+	background: #e2fef1;
+}
+.progress-area.docx,
+.uploaded-area.docx{
+	background: #E9F0FF;
+}
+.progress-area.pptx,
+.uploaded-area.pptx{
+	background: #fbdfe2;
+}
+.progress-area.png,
+.uploaded-area.png{
+	background: #e6eff9;
+}
+.progress-area.jpg,
+.uploaded-area.jpg{
+	background: #e6eff9;
 }
 .doc-upload .progress-area,
 .doc-upload .uploaded-area{

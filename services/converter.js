@@ -1,9 +1,10 @@
 const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
+const path = require('path');
 
 // docType => document, image etc.
-const convert = async (filePath, resultPath, api, docType) => {
+const convert = async (filePath, resultPath, api, docType, output={}) => {
 
     // https://api.pspdfkit.com/build
 
@@ -13,9 +14,10 @@ const convert = async (filePath, resultPath, api, docType) => {
         {
         file: docType
         }
-    ]
+    ],
+	output: output
     }));
-    formData.append('document', fs.createReadStream(filePath));
+    formData.append(docType, fs.createReadStream(filePath));
 
     try{
         const res = await axios.post(api, formData, {
@@ -24,11 +26,11 @@ const convert = async (filePath, resultPath, api, docType) => {
             }),
             responseType: "stream"
         })
-        return await res.data.pipe(fs.createWriteStream(resultPath));
+        return res.data.pipe(fs.createWriteStream(resultPath));
     }
     catch(err){
         const error = await streamToString(err.response);
-        console.log(error); 
+        console.log(error);
     }
 }
 

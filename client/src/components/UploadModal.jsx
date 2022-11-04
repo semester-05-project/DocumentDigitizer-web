@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
-const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint }) => {
+const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint, color }) => {
 
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -29,6 +30,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
     const handleFileUpload = (event, mimeType, extension) => {
 
         const file = event.target.files[0];
+		console.log(file.type);
 
         if (file && file.type === mimeType){
             setFile(event.target.files[0]);
@@ -45,7 +47,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
     const uploadFile = async (fileName, endpoint, extension) => {
         const formData = new FormData();
         formData.append(extension, file);
-        formData.append('fileName', fileName);
         
         const config = {
             onUploadProgress: function(progressEvent){
@@ -58,7 +59,13 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
         axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
                 console.log(res);
-                const url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
+				let url = "";
+				if (extension === 'pdf'){
+					url = URL.createObjectURL(new Blob([res.data], { type: "application/zip" }));
+				}
+				else{
+					url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
+				}
                 setUrl(url);
             })
             .catch((err) => {
@@ -66,6 +73,11 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
                     alert("Network Error: Please try again later");
                     window.location.reload();
                 }
+				else{
+					alert(err.message);
+					window.location.reload();
+				}
+				
             });
     }
 
@@ -79,7 +91,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
                     <div className="modal-body wrapper d-flex flex-column p-4">
                         <h3 className="lead text-center">{title}</h3>
 
-                        <form action="#" className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
+                        <form action="#" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
                             <input type="file" name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
                             <i className="fas fa-cloud-upload-alt fs-1"></i>
                             <p className='mt-4 lead'>Browse File to Upload</p>
@@ -89,7 +101,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
                         </form>
 
                         {/* Uploading */}
-                        <section className={`progress-area p-3 rounded mb-2 ${(progress === 0 || progress === 100) ? "d-none" : ""}`}>
+                        <section className={`progress-area ${color} p-3 rounded mb-2 ${(progress === 0 || progress === 100) ? "d-none" : ""}`}>
                             <li className="row d-flex">
                                 <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
                                 <div className="content col-11 px-3">
@@ -105,7 +117,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
                         </section>
 
                         {/* Uploaded */}
-                        <section className={`uploaded-area p-3 rounded mb-2 ${(progress === 100) ? "" : "d-none"}`}>
+                        <section className={`uploaded-area ${color} p-3 rounded mb-2 ${(progress === 100) ? "" : "d-none"}`}>
                             <li className="row d-flex">
                                 <div className="content d-flex col-11">
                                     <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
@@ -119,12 +131,12 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint 
                         </section>
 
                         {/* Download */}
-                        <section className={`uploaded-area p-3 rounded mb-2 ${(url) ? "" : "d-none"}`}>
+                        <section className={`uploaded-area ${color} p-3 rounded mb-2 ${(url) ? "" : "d-none"}`}>
                             <li className="row d-flex">
                                 <div className="content d-flex col-11">
                                     <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
                                     <div className="details col-11 d-flex flex-column ps-2">
-                                        <small className="name">result.pdf &#8226; <a href={url} download="result">Download</a></small>
+                                        <small className="name">result &#8226; <a href={url} download="result">Download</a></small>
                                         <small className="size fw-4">{file && (file.size/1024 < 1024) ? (file.size / 1024).toFixed(2) + " KB" : (loaded / (1024*1024)).toFixed(2) + " MB"}</small>
                                     </div>
                                 </div>
