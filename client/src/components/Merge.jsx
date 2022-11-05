@@ -16,19 +16,20 @@ const Merge = () => {
 	}
 
 	const handlePdfUpload = (e) => {
-		const doc1 = e.target.files[0];
-		const doc2 = e.target.files[1];
 		if (e.target.files.length !== 2){
-			setErr("Select two pdf files");
-			return
+			setErr("Select two pdf files to merge");
+			return false;
 		}
-		if (doc1 && doc2 && doc1.type === 'application/pdf' && doc2.type === 'application/pdf'){
+		if (e.target.files[0].type === 'application/pdf' && e.target.files[1].type === 'application/pdf'){
 			setFiles(e.target.files);
-			setFileSize(doc1.size + doc2.size);
+			setFileSize(e.target.files[0].size + e.target.files[1].size);
+			setErr("");
+			setUrl(null);
+			return true;
 		}
 		else{
 			setErr("Only .pdf files are allowed");
-			return
+			return false;
 		}
 		
 	}
@@ -55,27 +56,30 @@ const Merge = () => {
             })
             .catch((err) => {
 				console.log(err);
-                // if (err.code === "ERR_BAD_REQUEST"){
-                //     alert("Network Error: Please try again later");
-                //     window.location.reload();
-                // }
-				// else{
-				// 	alert(err.message);
-				// 	window.location.reload();
-				// }
+                if (err.code === "ERR_BAD_REQUEST"){
+                    alert("Network Error: Please try again later");
+                    window.location.reload();
+                }
+				else{
+					alert(err.message);
+					window.location.reload();
+				}
             });
     }
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		uploadFiles(files);
+
+		if (files && err === ""){
+			uploadFiles(files);
+		}
 	}
 
 	return (
 		<div className='bg-light h-100 d-flex p-4 justify-content-center'>
 			<div className='bg-light h-100 d-flex p-4 justify-content-center row'>
-				<div className="card-body d-flex flex-column text-center justify-content-center col-10">
-					<h3 className='lead p-5 border'>Select files from your computer to merge</h3>
+				<div className="card-body d-flex flex-column text-center justify-content-center col-10 p-0">
+					<h3 className='lead p-3 m-0 border'>Select files from your computer to merge</h3>
 				</div>
 
 				<div className="upload-container col-12 row p-0 justify-content-center">
@@ -85,7 +89,7 @@ const Merge = () => {
 						<form action="#" className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 needs-validation' noValidate onClick={handlePdfInput}>
 							<input type="file" name='file' hidden className={`pdf-input ${(err ? "is-invalid" : "")}`} onChange={handlePdfUpload} multiple />
 							<i className="fas fa-cloud-upload-alt fs-1"></i>
-							<p className='mt-4 lead'>Upload pdf 1</p>
+							<p className='mt-4 lead'>Upload two pdf files in the order of merging</p>
 							<div className="invalid-feedback">
                                 {err}
                             </div>
@@ -111,7 +115,9 @@ const Merge = () => {
 								<div className="content d-flex col-11">
 									<i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
 									<div className="details col-11 d-flex flex-column ps-2">
-										<small className="name">Uploaded</small>
+										<small className='file-one'>File 1 - {files && files[0].name}</small>
+										<small className='file-two'>File 2 - {files && files[1].name}</small>
+										<small className="name"><b>Uploaded</b></small>
 										<small className="size fw-4">{(fileSize/1024 < 1024) ? (fileSize / 1024).toFixed(2) + " KB" : (fileSize / (1024*1024)).toFixed(2) + " MB"}</small>
 									</div>
 								</div>
