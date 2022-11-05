@@ -24,7 +24,6 @@ const getStorage = (directory) => {
     return storage;
 }
 
-
 let uploadDocx = multer({
     storage: getStorage(DIR),
     fileFilter: (req, file, cb) => {
@@ -44,7 +43,7 @@ let uploadDocx = multer({
 });
 
 let uploadXlsx = multer({
-    storage: getStorage(DIR, 'xlsxFile.xlsx'),
+    storage: getStorage(DIR),
     fileFilter: (req, file, cb) => {
         // Allowed extensions
         const fileTypes = /xlsx/;
@@ -62,7 +61,7 @@ let uploadXlsx = multer({
 });
 
 let uploadPptx = multer({
-	storage: getStorage(DIR, 'pptxFile.pptx'),
+	storage: getStorage(DIR),
 	fileFilter: (req, file, cb) => {
         // Allowed extensions
         const fileTypes = /pptx/;
@@ -80,7 +79,7 @@ let uploadPptx = multer({
 });
 
 let uploadPng = multer({
-	storage: getStorage(DIR, 'pngFile.png'),
+	storage: getStorage(DIR),
 	fileFilter: (req, file, cb) => {
 		console.log(file);
         // Allowed extensions
@@ -99,7 +98,7 @@ let uploadPng = multer({
 });
 
 let uploadJpg = multer({
-	storage: getStorage(DIR, 'jpgFile.jpg'),
+	storage: getStorage(DIR),
 	fileFilter: (req, file, cb) => {
         // Allowed extensions
         const fileTypes = /jpg/;
@@ -117,9 +116,8 @@ let uploadJpg = multer({
 });
 
 let uploadPdf = multer({
-	storage: getStorage(DIR, 'pdfFile.pdf'),
+	storage: getStorage(DIR),
 	fileFilter: (req, file, cb) => {
-		console.log(file);
         // Allowed extensions
         const fileTypes = /pdf/;
         // Check extension

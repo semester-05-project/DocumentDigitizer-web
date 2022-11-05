@@ -26,7 +26,7 @@ const handleDocxToPdf = async (req, res) => {
 	const docType = "document";
 
     try{
-        let stream = await converter.convert(filePath, resultPath, api, docType);
+        // let stream = await converter.convert(filePath, resultPath, api, docType);
         console.log("successfully converted file: " + fileName);
 
         const resultFilePath = path.resolve(resultPath); 

@@ -30,7 +30,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const handleFileUpload = (event, mimeType, extension) => {
 
         const file = event.target.files[0];
-		console.log(file.type);
 
         if (file && file.type === mimeType){
             setFile(event.target.files[0]);
@@ -44,7 +43,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
         
     }
     
-    const uploadFile = async (fileName, endpoint, extension) => {
+    const uploadFile = async (endpoint, extension) => {
         const formData = new FormData();
         formData.append(extension, file);
         
