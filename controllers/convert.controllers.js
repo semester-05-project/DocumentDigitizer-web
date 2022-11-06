@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const uuidv4 = require('uuid');
 
-const waitTime = 60 * 60 * 1000; // one hour
+const waitTime = 1 * 60 * 1000; // one hour
 const deleteFile = async (filePath, waitTime) => {
 	setTimeout(() => {
 		fs.unlink(filePath, err => {
@@ -26,7 +26,7 @@ const handleDocxToPdf = async (req, res) => {
 	const docType = "document";
 
     try{
-        // let stream = await converter.convert(filePath, resultPath, api, docType);
+        let stream = await converter.convert(filePath, resultPath, api, docType);
         console.log("successfully converted file: " + fileName);
 
         const resultFilePath = path.resolve(resultPath); 

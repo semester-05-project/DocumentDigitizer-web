@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
 import Login from '../Login';
@@ -13,7 +13,7 @@ const MockLogin = () => {
     );
 }
 
-describe('Login render page', () => {
+describe('Render login page', () => {
 
     beforeEach(() => {
         render(
@@ -65,9 +65,9 @@ describe('Form behaviour', () => {
         expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument();
 
         // to have only email field empty when submitting
-        fireEvent.change(emailInputElement, { target: { value: "" } });
-        fireEvent.change(passwordInputElement, { target: { value: "admin1234" } });
-        fireEvent.click(buttonElement);
+        // fireEvent.change(emailInputElement, { target: { value: "" } });
+        // fireEvent.change(passwordInputElement, { target: { value: "admin1234" } });
+        // fireEvent.click(buttonElement);
         expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument();
     });
 
@@ -81,6 +81,11 @@ describe('Form behaviour', () => {
         }
 
         expect(error).toEqual('FirebaseError: Firebase: Error (auth/user-not-found).');
+    });
+
+	it('Should login with correct credentials', async () => {
+        const user = await signInWithEmailAndPassword(auth, 'akash_tharuka@yahoo.com', 'test1234');
+        await waitFor(() => expect(user.user).toBeTruthy());
     });
 
     // it('Signing in with wrong password should throw wrong password error', async () => {
@@ -111,10 +116,7 @@ describe('Form behaviour', () => {
     //     expect(error).toEqual('FirebaseError: Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).');
     // });
 
-    it('Should login with correct credentials', async () => {
-        const user = await signInWithEmailAndPassword(auth, 'tharukaeaa.19@gmail.com', 'test1234');
-        expect(user.user).toBeTruthy();
-    });
+    
     
     
 });

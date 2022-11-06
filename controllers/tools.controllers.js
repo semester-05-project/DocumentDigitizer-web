@@ -2,7 +2,7 @@ const merger = require('../services/merger');
 const fs = require('fs');
 const uuidv4 = require('uuid');
 
-const waitTime = 60 * 60 * 1000; // one hour
+const waitTime = 1 * 60 * 1000; // one minute
 const deleteFile = async (filePath, waitTime) => {
 	setTimeout(() => {
 		fs.unlink(filePath, err => {
@@ -38,7 +38,6 @@ const mergePdfs = async (req, res) => {
 	deleteFile(path, waitTime);
 	deleteFile(file1, waitTime);
 	deleteFile(file2, waitTime);
-
 }
 
 module.exports = {

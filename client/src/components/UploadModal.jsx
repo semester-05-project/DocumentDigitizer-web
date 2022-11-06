@@ -43,7 +43,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
         
     }
     
-    const uploadFile = async (endpoint, extension) => {
+    const uploadFile = async (fileName, endpoint, extension) => {
         const formData = new FormData();
         formData.append(extension, file);
         
@@ -55,6 +55,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             },
             responseType: "arraybuffer"
         }
+		console.log(endpoint);
         axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
                 console.log(res);
@@ -91,7 +92,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                         <h3 className="lead text-center">{title}</h3>
 
                         <form action="#" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
-                            <input type="file" name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
+                            <input type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
                             <i className="fas fa-cloud-upload-alt fs-1"></i>
                             <p className='mt-4 lead'>Browse File to Upload</p>
                             <div className="invalid-feedback">

@@ -19,7 +19,7 @@ const Profile = () => {
     const [doc, setDoc] = useState("");
     const [perc, setPerc] = useState(0);
     const [allFiles, setAllFiles] = useState([]);
-    const [activeComponent, setActiveComponent] = useState("merge");
+    const [activeComponent, setActiveComponent] = useState("convertor");
 	const [nameInput, setNameInput] = useState("");
 	const [search, setSearch] = useState("");
 	const [err, setErr] = useState(null);

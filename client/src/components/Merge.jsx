@@ -16,6 +16,7 @@ const Merge = () => {
 	}
 
 	const handlePdfUpload = (e) => {
+		console.log(e.target.value);
 		if (e.target.files.length !== 2){
 			setErr("Select two pdf files to merge");
 			return false;
@@ -87,7 +88,7 @@ const Merge = () => {
 					<div className="wrapper doc-upload d-flex flex-column p-4 col-10">
 						{/* file input */}
 						<form action="#" className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 needs-validation' noValidate onClick={handlePdfInput}>
-							<input type="file" name='file' hidden className={`pdf-input ${(err ? "is-invalid" : "")}`} onChange={handlePdfUpload} multiple />
+							<input type="file" name='file' data-testid='merge-input' hidden className={`pdf-input ${(err ? "is-invalid" : "")}`} onChange={handlePdfUpload} multiple />
 							<i className="fas fa-cloud-upload-alt fs-1"></i>
 							<p className='mt-4 lead'>Upload two pdf files in the order of merging</p>
 							<div className="invalid-feedback">
@@ -139,7 +140,7 @@ const Merge = () => {
 						</section>
 					</div>
 
-					<button className="btn btn-info col-10" onClick={handleSubmit}>MERGE</button>
+					<button className="btn btn-info col-10" data-testid='merge-btn' onClick={handleSubmit}>MERGE</button>
 				
 				</div>
 			</div>
