@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
 const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint, color }) => {
@@ -12,7 +12,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const [fileError, setFileError] = useState(null);
 
     const handleFileInput = (e, fileInputClass) => {
-        const fileInput = document.querySelector("."+fileInputClass);
+		// console.log(mimeType);
+        const fileInput = document.querySelector("." + fileInputClass);
         fileInput.click();
     }
 
@@ -28,10 +29,10 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     }, [file]);
 
     const handleFileUpload = (event, mimeType, extension) => {
+		console.log(event.target);
+        const curr_file = event.target.files[0];
 
-        const file = event.target.files[0];
-
-        if (file && file.type === mimeType){
+        if (curr_file && curr_file.type === mimeType){
             setFile(event.target.files[0]);
             setUrl("");
             setProgress(0);
@@ -45,7 +46,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     
     const uploadFile = async (fileName, endpoint, extension) => {
         const formData = new FormData();
-        formData.append(extension, file);
+        formData.append("file", file);
         
         const config = {
             onUploadProgress: function(progressEvent){
@@ -55,7 +56,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             },
             responseType: "arraybuffer"
         }
-		console.log(endpoint);
         axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
                 console.log(res);

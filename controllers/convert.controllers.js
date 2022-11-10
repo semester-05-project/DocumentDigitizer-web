@@ -2,6 +2,7 @@ const converter = require('../services/converter');
 const path = require('path');
 const fs = require('fs');
 const uuidv4 = require('uuid');
+var toPdf = require("office-to-pdf");
 
 const waitTime = 1 * 60 * 1000; // one hour
 const deleteFile = async (filePath, waitTime) => {
@@ -10,7 +11,7 @@ const deleteFile = async (filePath, waitTime) => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log('succesfully deleted from the downloads folder')
+				console.log('succesfully deleted from the documents folder')
 			}
 		})
 	}, waitTime);
@@ -325,14 +326,27 @@ const handleJpgToPdf = async (req, res) => {
     }
 }
 
+const handleDocumentConvertor = async (req, res) => {
+	const fileName = req.body.fileName;
+    // const resultPath = 'documents/' + uuidv4() +'result.pdf';
+
+	const readFilePath = path.resolve(`documents/${fileName}`);
+	var wordBuffer = fs.readFileSync(readFilePath);
+
+	toPdf(wordBuffer).then(
+		(pdfBuffer) => {
+			res.send(pdfBuffer);
+		  	// fs.writeFileSync(`documents/results/${resultFileName}`, pdfBuffer);
+		}, (err) => {
+		  	console.log(err);
+		}
+	);
+
+	deleteFile(readFilePath);
+	
+}
+
 
 module.exports = {
-    handleDocxToPdf,
-    handleXlsxToPdf,
-	handlePptxToPdf,
-	handlePngToPdf,
-	handlePdfToJpg,
-	handlePdfToPng,
-	handlePdfToWebp,
-	handleJpgToPdf
+    handleDocumentConvertor
 }

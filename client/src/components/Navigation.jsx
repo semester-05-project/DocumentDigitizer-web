@@ -13,7 +13,12 @@ const Navigation = (props) => {
 
             <div className="container-fluid row">
 
-                <HashLink className="navbar-brand col-4" to="/">SCANME</HashLink >
+				<a className="btn bg-transparent text-light col-1" data-bs-toggle="offcanvas" href="#profile" role="button" aria-controls="profile">
+					<i className="fa fa-bars text-white bg-transparent cursor-pointer" aria-hidden="true"></i>
+				</a>
+				
+				
+                <HashLink className="navbar-brand col-3" to="/">SCANME</HashLink >
 
                 <button className="navbar-toggler col-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -21,13 +26,13 @@ const Navigation = (props) => {
 
                 <div className="collapse navbar-collapse col-8" id="navbarNav">
 
-                    <ul className="navbar-nav col-12 d-flex justify-content-between">
+                    <ul className="navbar-nav col-12 d-flex justify-content-evenly">
 
                         <li className="nav-item col-2 d-flex flex-column align-self-center">
                             <HashLink className="nav-link active text-center" aria-current="page" to="/">Home</HashLink >
                         </li>
                         
-                        {currentUser && 
+                        {/* {currentUser && 
                         <li className="nav-item dropdown col-2 d-flex flex-column align-self-center">
                             <HashLink className="nav-link text-center dropdown-toggle" to="#" id='navbarDropdownMenuLink' role="button" data-bs-toggle="dropdown" aria-expanded="false">Features</HashLink >
                             <ul className='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
@@ -37,7 +42,7 @@ const Navigation = (props) => {
                                 <li><a href="#" className='dropdown-item'>Remove Pages</a></li>
                                 <li><a href="#" className='dropdown-item'>Rearrange pages</a></li>
                             </ul>
-                        </li>}
+                        </li>} */}
 
                         <li className="nav-item col-2 d-flex flex-column align-self-center">
                             <HashLink className="nav-link text-center" to="#footer">Support</HashLink >

@@ -24,20 +24,21 @@ const getStorage = (directory) => {
     return storage;
 }
 
-let uploadDocx = multer({
+let uploadDocument = multer({
     storage: getStorage(DIR),
     fileFilter: (req, file, cb) => {
         // Allowed extensions
-        const fileTypes = /docx/;
+        const fileTypes = /.docx|.doc|.xlsx|.xls|.pptx|.ppt/;
         // Check extension
         const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+		console.log(path.extname(file.originalname).toLowerCase(), extName);
 
-        if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && extName){
+        if (extName){
             cb(null, true);
         }
         else{
             cb(null, false);
-            return cb(new Error('Only .docx format is allowed'));
+            return cb(new Error('File format not allowed'));
         }
     }
 });
@@ -133,15 +134,17 @@ let uploadPdf = multer({
     }
 });
 
-router.post('/docxToPdfUpload', uploadDocx.single("docx"), convertController.handleDocxToPdf);
-router.post('/xlsxToPdfUpload', uploadXlsx.single("xlsx"), convertController.handleXlsxToPdf);
-router.post('/pptxToPdfUpload', uploadPptx.single("pptx"), convertController.handlePptxToPdf);
-router.post('/pngToPdfUpload', uploadPng.single("png"), convertController.handlePngToPdf);
+// router.post('/docxToPdfUpload', uploadDocx.single("docx"), convertController.handleDocxToPdf);
+// router.post('/xlsxToPdfUpload', uploadXlsx.single("xlsx"), convertController.handleXlsxToPdf);
+// router.post('/pptxToPdfUpload', uploadPptx.single("pptx"), convertController.handlePptxToPdf);
+// router.post('/pngToPdfUpload', uploadPng.single("png"), convertController.handlePngToPdf);
 
-router.post('/pdfToJpgUpload', uploadPdf.single("pdf"), convertController.handlePdfToJpg);
-router.post('/pdfToPngUpload', uploadPdf.single("pdf"), convertController.handlePdfToPng);
-router.post('/pdfToWebpUpload', uploadPdf.single("pdf"), convertController.handlePdfToWebp);
-router.post('/jpgToPdfUpload', uploadJpg.single("jpg"), convertController.handlePngToPdf);
+// router.post('/pdfToJpgUpload', uploadPdf.single("pdf"), convertController.handlePdfToJpg);
+// router.post('/pdfToPngUpload', uploadPdf.single("pdf"), convertController.handlePdfToPng);
+// router.post('/pdfToWebpUpload', uploadPdf.single("pdf"), convertController.handlePdfToWebp);
+// router.post('/jpgToPdfUpload', uploadJpg.single("jpg"), convertController.handlePngToPdf);
+
+router.post('/convertDocument', uploadDocument.single("file"), convertController.handleDocumentConvertor);
 
 module.exports = router;
 

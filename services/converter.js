@@ -2,6 +2,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
+var toPdf = require("office-to-pdf");
 
 // docType => document, image etc.
 const convert = async (filePath, resultPath, api, docType, output={}) => {
@@ -35,15 +36,30 @@ const convert = async (filePath, resultPath, api, docType, output={}) => {
 }
 
     
-    function streamToString(stream) {
-        const chunks = []
-        return new Promise((resolve, reject) => {
-            stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)))
-            stream.on("error", (err) => reject(err))
-            stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")))
-    });
+function streamToString(stream) {
+	const chunks = []
+	return new Promise((resolve, reject) => {
+		stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)))
+		stream.on("error", (err) => reject(err))
+		stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")))
+	});
+}
+
+const convertToPdf = (fileName, resultFileName) => {
+
+	const readFilePath = path.resolve(`documents/${fileName}`);
+	var wordBuffer = fs.readFileSync(readFilePath);
+
+	toPdf(wordBuffer).then(
+		(pdfBuffer) => {
+		  	fs.writeFileSync(`documents/results/${resultFileName}`, pdfBuffer);
+		}, (err) => {
+		  	console.log(err);
+		}
+	);
 }
 
 module.exports = {
-    convert
+    convert,
+	convertToPdf
 }
