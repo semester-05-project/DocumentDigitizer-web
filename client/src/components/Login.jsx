@@ -4,7 +4,6 @@ import Navigation from './Navigation';
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../javascript/firebase';
 import { AuthContext } from '../context/AuthContext';
-import e from 'cors';
 
 const Login = () => {
     const [error, setError] = useState("");

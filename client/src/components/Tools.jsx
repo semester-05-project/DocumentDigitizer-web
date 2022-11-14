@@ -1,18 +1,20 @@
 import React from 'react';
 import { images } from '../javascript/imageImports';
+import MergeModal from './MergeModal';
 
 const Tools = () => {
 	return (
 		<div className='features-tools col-12 d-flex flex-row flex-wrap justify-content-start'>
-			<div className="card p-3 m-2">
+			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#mergeModal">
 				<div className="card-body">
 					<img src={images.merge_icon} alt="merge_icon" />
 					<span className='ms-4 fw-bold'>Merge Files</span>
 					<p className='my-3'>Merge multiple documents into one PDF file</p>
 				</div>
 			</div>
+			<MergeModal />
 
-			<div className="card p-3 m-2">
+			<div className="tool-card card p-3 m-2">
 				<div className="card-body">
 					<img src={images.ocr} alt="ocr_icon" />
 					<span className='ms-4 fw-bold'>OCR</span>
@@ -20,7 +22,7 @@ const Tools = () => {
 				</div>
 			</div>
 
-			<div className="card p-3 m-2">
+			<div className="tool-card card p-3 m-2">
 				<div className="card-body">
 					<img src={images.split} alt="split_icon" />
 					<span className='ms-4 fw-bold'>Split Files</span>
@@ -28,7 +30,7 @@ const Tools = () => {
 				</div>
 			</div>
 
-			<div className="card p-3 m-2">
+			<div className="tool-card card p-3 m-2">
 				<div className="card-body">
 					<img src={images.add} alt="add_icon" />
 					<span className='ms-4 fw-bold'>Add Pages</span>
@@ -36,7 +38,7 @@ const Tools = () => {
 				</div>
 			</div>
 
-			<div className="card p-3 m-2">
+			<div className="tool-card card p-3 m-2">
 				<div className="card-body">
 					<img src={images.delete_file} alt="remove_icon" />
 					<span className='ms-4 fw-bold'>Remove Pages</span>

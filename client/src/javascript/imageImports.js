@@ -22,10 +22,15 @@ import webp from '../images/icons/webp.png';
 import xls from '../images/icons/xls.png';
 import xlsx from '../images/icons/xlsx.png';
 
+import sort from '../images/icons/sort.png';
+import play from '../images/icons/play-button.png';
+import download from '../images/icons/download.png';
+
 export const images = {
     hero,
     bg_scanning,
     scanner_image,
     fixedBackground,
-	merge_icon, extract_text, add, doc, docx, file, html, jpg, ocr, pdf, png, ppt, pptx, split, webp, xls, xlsx, delete_file
+	merge_icon, extract_text, add, doc, docx, file, html, jpg, ocr, pdf, png, ppt, pptx, split, webp, xls, xlsx, delete_file,
+	sort, play, download,
 }

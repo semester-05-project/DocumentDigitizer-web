@@ -2,13 +2,12 @@ const pdfLib = require('pdf-lib');
 const uuidv4 = require('uuid');
 const fs = require('fs');
 
-const merge = async (pdfBuffer1, pdfBuffer2, outputFilePath) => {
+const merge = async (pdfBufferArray, outputFilePath) => {
 	const pdfDocument = pdfLib.PDFDocument;
-	let pdfsToMerge = [pdfBuffer1, pdfBuffer2];
 
 	const mergedPdf = await pdfDocument.create();
 
-	for (const pdfBytes of pdfsToMerge) { 
+	for (const pdfBytes of pdfBufferArray) {
 		const pdf = await pdfDocument.load(pdfBytes); 
 		const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
 		copiedPages.forEach((page) => {

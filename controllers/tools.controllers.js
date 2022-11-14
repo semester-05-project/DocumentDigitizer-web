@@ -16,13 +16,28 @@ const deleteFile = async (filePath, waitTime) => {
 }
 
 const mergePdfs = async (req, res) => {
-	const file1 = req.files[0].path;
-	const file2 = req.files[1].path;
+	const num_of_files = req.files.length;
+	
+	let bufferArray = [];
+	for (let i = 0; i < num_of_files; i += 1){
+		let file = req.files[i].path;
+		let buffer = fs.readFileSync(file);
+		bufferArray.push(buffer);
+		fs.unlink(file, err => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log('succesfully deleted from the downloads folder')
+			}
+		});
+	}
+	// const file1 = req.files[0].path;
+	// const file2 = req.files[1].path;
 
-	let buffer1 = fs.readFileSync(file1);
-	let buffer2 = fs.readFileSync(file2);
+	// let buffer1 = fs.readFileSync(file1);
+	// let buffer2 = fs.readFileSync(file2);
 
-	const path = await merger.merge(buffer1, buffer2, `mergedFile.pdf`);
+	const path = await merger.merge(bufferArray, `mergedFile.pdf`);
 
 	fs.readFile(path, function(err, data){
 		if (err){
@@ -36,8 +51,6 @@ const mergePdfs = async (req, res) => {
 	});
 
 	deleteFile(path, waitTime);
-	deleteFile(file1, waitTime);
-	deleteFile(file2, waitTime);
 }
 
 module.exports = {

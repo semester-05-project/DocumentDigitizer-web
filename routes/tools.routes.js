@@ -27,7 +27,6 @@ const getStorage = (directory) => {
 let uploadPdf = multer({
 	storage: getStorage(DIR),
 	fileFilter: (req, file, cb) => {
-		console.log(file);
         // Allowed extensions
         const fileTypes = /pdf/;
         // Check extension
@@ -43,6 +42,6 @@ let uploadPdf = multer({
     }
 });
 
-router.post('/merge', uploadPdf.array('files', 2), toolsController.mergePdfs);
+router.post('/merge', uploadPdf.array('files'), toolsController.mergePdfs);
 
-module.exports = router;
+module.exports = router; 

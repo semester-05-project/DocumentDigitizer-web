@@ -92,7 +92,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                         <h3 className="lead text-center">{title}</h3>
 
                         <form action="#" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
-                            <input type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
+                            <input type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} accept={mimeType} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
                             <i className="fas fa-cloud-upload-alt fs-1"></i>
                             <p className='mt-4 lead'>Browse File to Upload</p>
                             <div className="invalid-feedback">
