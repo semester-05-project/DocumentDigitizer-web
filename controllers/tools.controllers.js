@@ -1,4 +1,5 @@
 const merger = require('../services/merger');
+const ocr = require('../services/ocr');
 const fs = require('fs');
 const uuidv4 = require('uuid');
 
@@ -53,8 +54,23 @@ const mergePdfs = async (req, res) => {
 	deleteFile(path, waitTime);
 }
 
+const extract = async (req, res) => {
+	const path = `documents/${req.body.fileName}`;
+	ocr.extract(path)
+}
+
+const ocrDocs = async (req, res) => {
+	const path = `documents/${req.body.fileName}`;
+	
+	let data = await ocr.ocr_with_tesseract(path);
+	console.log(data);
+	res.send(data);
+}
+
 module.exports = {
-	mergePdfs
+	mergePdfs,
+	ocrDocs,
+	extract,
 }
 
 

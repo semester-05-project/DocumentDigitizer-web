@@ -1,16 +1,22 @@
-const tesseract = require('node-tesseract');
+const { createWorker } = require('tesseract.js');
+const path = require('path');
 
-const extract = (filePath) => {
-	tesseract.process(filePath, function(err, text) {
-		if(err) {
-			console.error(err);
-		} else {
-			console.log(text);
-		}
+const ocr_with_tesseract = async (path) => {
+	// let data = "";
+	const worker = createWorker({
+		logger: m => console.log(m)
 	});
+	
+	await worker.load();
+	await worker.loadLanguage('eng');
+	await worker.initialize('eng');
+	const { data: { text } } = await worker.recognize(path);
+	// console.log(text);
+	await worker.terminate();
+	return text;
 }
 
 module.exports = {
-	extract
+	ocr_with_tesseract
 }
 

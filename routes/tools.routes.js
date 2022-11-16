@@ -42,6 +42,26 @@ let uploadPdf = multer({
     }
 });
 
+let uploadOcr = multer({
+	storage: getStorage(DIR),
+	fileFilter: (req, file, cb) => {
+        // Allowed extensions
+        const fileTypes = /pdf|png|jpeg/;
+        // Check extension
+        const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+
+        if (extName){
+            cb(null, true);
+        }
+        else{
+            cb(null, false);
+            return cb(new Error('Only pdf and image files are allowed'));
+        }
+    }
+});
+
 router.post('/merge', uploadPdf.array('files'), toolsController.mergePdfs);
+router.post('/ocr', uploadOcr.single('file'), toolsController.ocrDocs);
 
 module.exports = router; 
+

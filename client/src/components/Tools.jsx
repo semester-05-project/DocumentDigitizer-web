@@ -1,6 +1,7 @@
 import React from 'react';
 import { images } from '../javascript/imageImports';
 import MergeModal from './MergeModal';
+import OCRModal from './OCRModal';
 
 const Tools = () => {
 	return (
@@ -14,13 +15,14 @@ const Tools = () => {
 			</div>
 			<MergeModal />
 
-			<div className="tool-card card p-3 m-2">
+			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#ocrModal">
 				<div className="card-body">
 					<img src={images.ocr} alt="ocr_icon" />
 					<span className='ms-4 fw-bold'>OCR</span>
 					<p className='my-3'>Optical Character Recognition for your images with text</p>
 				</div>
 			</div>
+			<OCRModal />
 
 			<div className="tool-card card p-3 m-2">
 				<div className="card-body">
