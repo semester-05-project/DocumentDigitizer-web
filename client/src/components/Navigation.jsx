@@ -4,7 +4,7 @@ import { HashLink } from 'react-router-hash-link';
 import { AuthContext } from '../context/AuthContext';
 import Logout from './Logout';
 
-const Navigation = (props) => {
+const Navigation = () => {
 
     const {currentUser} = useContext(AuthContext);
 

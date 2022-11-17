@@ -12,7 +12,7 @@ const Profile = () => {
 
     return (
         <>
-            <Navigation logged />
+            <Navigation />
 
 			<CloudStorage />
 

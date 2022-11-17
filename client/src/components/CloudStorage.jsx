@@ -4,6 +4,8 @@ import { storage } from '../javascript/firebase';
 import firebase from 'firebase/compat/app';
 import uuid from 'react-uuid';
 import { AuthContext } from '../context/AuthContext';
+import Spinner from './Spinner';
+import Alert from './Alert';
 
 const CloudStorage = () => {
 	const { currentUser } = useContext(AuthContext);
@@ -14,6 +16,7 @@ const CloudStorage = () => {
 	const [nameInput, setNameInput] = useState("");
 	const [search, setSearch] = useState("");
 	const [err, setErr] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	// open file browser
     const handleDocInput = (e) => {
@@ -36,12 +39,14 @@ const CloudStorage = () => {
 
 	// get files from firebase and list them
     const listAllFiles = (folder) => {
+		setLoading(true);
         const storageRef = firebase.storage().ref();
     
         const listRef = storageRef.child(folder);
     
         listRef.listAll()
             .then((res) => {
+				setLoading(false);
                 res.prefixes.forEach((folderRef) => {
                     // pass
                 });
@@ -56,6 +61,7 @@ const CloudStorage = () => {
             })
             .catch(error => {
                 console.log(error);
+				setErr(error.message);
             });
     }
 
@@ -71,6 +77,7 @@ const CloudStorage = () => {
         // 3. Completion observer, called on successful completion
         uploadTask.on('state_changed', 
 			(snapshot) => {
+				setErr(null);
 				// Observe state change events such as progress, pause, and resume
 				// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -93,15 +100,18 @@ const CloudStorage = () => {
 				switch (error.code) {
 					case 'storage/unauthorized':
 						// User doesn't have permission to access the object
-						console.log("Permission denied");
+						console.error("Permission denied");
+						setErr("Permission denied");
 						break;
 					case 'storage/canceled':
 						// User canceled the upload
-						console.log("Cancelled by the user");
+						console.error("Cancelled by the user");
+						setErr("Cancelled by the user");
 						break;
 					case 'storage/unknown':
 						// Unknown error occurred, inspect error.serverResponse
-						console.log("Unknown error occurred");
+						console.error("Unknown error occurred");
+						setErr("Unknown error occurred");
 						break;
 					default:
 						break;
@@ -129,6 +139,8 @@ const CloudStorage = () => {
     }, []);
 
 	const handleDelete = (e) => {
+		setLoading(true);
+		setErr(null);
 		const fileName = e.target.getAttribute('name');
 		// Create a reference to the file to delete
 		const desertRef = ref(storage, `${currentUser.uid}/${fileName}`);
@@ -136,10 +148,12 @@ const CloudStorage = () => {
 		// Delete the file
 		deleteObject(desertRef).then(() => {
 			// File deleted successfully
+			setLoading(false);
 			window.location.reload();
 		}).catch((error) => {
 			// Uh-oh, an error occurred!
-			console.log(error);
+			console.error(error);
+			setErr(error.message);
 		});
 	}
 
@@ -252,8 +266,11 @@ const CloudStorage = () => {
 						</div>
 
 						<div className="wrapper doc-upload d-flex flex-column p-4">
+
+							{err && <Alert message={err} />}
+
 							<form className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={handleDocInput}>
-								<input type="file" name='file' hidden className={`doc-input doc-input ${(err) ? "is-invalid" : ""}`} onChange={handleDocUpload} />
+								<input type="file" name='file' hidden className={`doc-input doc-input ${(err) ? "is-invalid" : ""}`} onChange={handleDocUpload} accept="application/pdf" />
 								<i className="fas fa-cloud-upload-alt fs-1"></i>
 								<p className='mt-4 lead'>Browse File to Upload</p>
 								<div className="invalid-feedback">
@@ -289,7 +306,10 @@ const CloudStorage = () => {
 						</div>
 
 						<div className="documents container d-flex flex-column m-0 p-0">
-							{(! search) ? getAllFiles() : searchFiles()}
+							{!err && loading && <section className='text-center'>
+								<Spinner color="text-success" />
+							</section>}
+							{! loading && ((! search) ? getAllFiles() : searchFiles())}
 						</div>
 						
 					</section>

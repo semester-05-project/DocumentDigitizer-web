@@ -338,7 +338,8 @@ const handleDocumentConvertor = async (req, res) => {
 			res.send(pdfBuffer);
 		  	// fs.writeFileSync(`documents/results/${resultFileName}`, pdfBuffer);
 		}, (err) => {
-		  	console.log(err);
+		  	console.err(err);
+			res.status(400).send(err.message);
 		}
 	);
 

@@ -25,6 +25,7 @@ import xlsx from '../images/icons/xlsx.png';
 import sort from '../images/icons/sort.png';
 import play from '../images/icons/play-button.png';
 import download from '../images/icons/download.png';
+import warning from '../images/icons/warning.png';
 
 export const images = {
     hero,
@@ -32,5 +33,5 @@ export const images = {
     scanner_image,
     fixedBackground,
 	merge_icon, extract_text, add, doc, docx, file, html, jpg, ocr, pdf, png, ppt, pptx, split, webp, xls, xlsx, delete_file,
-	sort, play, download,
+	sort, play, download, warning,
 }

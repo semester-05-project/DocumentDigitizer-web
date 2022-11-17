@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from './Spinner';
+import Alert from './Alert';
 // import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
@@ -11,6 +12,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const [loaded, setLoaded] = useState(0);
     const [url, setUrl] = useState(null);
     const [fileError, setFileError] = useState(null);
+	const [err, setErr] = useState(null);
 	const [loading, setLoading] = useState(false);
 
     const handleFileInput = (e, fileInputClass) => {
@@ -61,6 +63,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
         axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
 				setLoading(false);
+				setErr(null);
                 // console.log(res);
 				let url = "";
 				if (extension === 'pdf'){
@@ -73,12 +76,17 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             })
             .catch((err) => {
                 if (err.code === "ERR_BAD_REQUEST"){
-                    alert("Network Error: Please try again later");
-                    window.location.reload();
+                    setErr("Network Error: Please try again later");
+                    // window.location.reload();
                 }
+				else if (err.code === "ERR_CONNECTION_REFUSED"){
+					// alert("Network Error: Please check your connection");
+					setErr("Network Error: Please check your connection");
+				}
 				else{
-					alert(err.message);
-					window.location.reload();
+					// alert(err.message);
+					setErr(err.message);
+					// window.location.reload();
 				}
 				
             });
@@ -94,6 +102,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                     <div className="modal-body wrapper d-flex flex-column p-4">
                         <h3 className="lead text-center">{title}</h3>
 
+						{err && <Alert message={err} />}
+
                         <form action="#" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
                             <input type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} accept={mimeType} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
                             <i className="fas fa-cloud-upload-alt fs-1"></i>
@@ -102,6 +112,10 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                                 {fileError}
                             </div>
                         </form>
+
+						<section className='text-center'>
+							{!err && loading && <Spinner color="text-info" />}
+						</section>
 
                         {/* Uploading */}
                         <section className={`progress-area ${color} p-3 rounded mb-2 ${(progress === 0 || progress === 100) ? "d-none" : ""}`}>
@@ -134,7 +148,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                         </section>
 
 						<section className='text-center'>
-							{(progress === 100) && loading && <Spinner color="text-info" />}
+							{!err && (progress === 100) && loading && <Spinner color="text-info" />}
 						</section>
 						
 
