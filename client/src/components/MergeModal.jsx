@@ -12,7 +12,7 @@ const MergeModal = () => {
 		e.target.parentElement.querySelector('.file-input').click();
 	}
 
-	const addFiles = (f) => {
+	const handleAddFiles = (f) => {
 		let new_files = files ? [...files] : [];
 		for (let i = 0; i < f.length; i += 1){
 			new_files.push(f[i]);
@@ -134,7 +134,7 @@ const MergeModal = () => {
 						<button type="button" className="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
 						<div className="files-to-merge card m-3 mx-auto" style={{width: "90vw", minHeight: "12rem"}}>
 							<div className="card-body">
-								<input type="file" accept='application/pdf' className='file-input' onChange={e => addFiles(e.target.files)} multiple hidden />
+								<input type="file" accept='application/pdf' className='file-input' onChange={e => handleAddFiles(e.target.files)} multiple hidden />
 								<button className='btn btn-outline-info mb-2 mx-2' onClick={e => handleFileInput(e)}>Add</button>
 								<button className='btn btn-outline-danger mb-2 mx-2' onClick={handleClearAll}>Clear All</button>
 								<table className="table align-middle table-striped table-hover table-bordered col-8 text-center">

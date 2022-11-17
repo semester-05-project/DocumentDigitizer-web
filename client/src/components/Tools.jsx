@@ -2,6 +2,7 @@ import React from 'react';
 import { images } from '../javascript/imageImports';
 import MergeModal from './MergeModal';
 import OCRModal from './OCRModal';
+import SplitModal from './SplitModal';
 
 const Tools = () => {
 	return (
@@ -24,13 +25,14 @@ const Tools = () => {
 			</div>
 			<OCRModal />
 
-			<div className="tool-card card p-3 m-2">
+			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#splitModal">
 				<div className="card-body">
 					<img src={images.split} alt="split_icon" />
 					<span className='ms-4 fw-bold'>Split Files</span>
 					<p className='my-3'>Split pdf files into multiple files</p>
 				</div>
 			</div>
+			<SplitModal />
 
 			<div className="tool-card card p-3 m-2">
 				<div className="card-body">

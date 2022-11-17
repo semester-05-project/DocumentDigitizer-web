@@ -1,7 +1,10 @@
 const merger = require('../services/merger');
 const ocr = require('../services/ocr');
+const split = require('../services/split');
 const fs = require('fs');
 const uuidv4 = require('uuid');
+const path = require('path');
+const { json } = require('node:stream/consumers');
 
 const waitTime = 1 * 60 * 1000; // one minute
 const deleteFile = async (filePath, waitTime) => {
@@ -10,7 +13,7 @@ const deleteFile = async (filePath, waitTime) => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log('succesfully deleted from the downloads folder')
+				console.log('succesfully deleted from the documents folder')
 			}
 		})
 	}, waitTime);
@@ -54,23 +57,39 @@ const mergePdfs = async (req, res) => {
 	deleteFile(path, waitTime);
 }
 
-const extract = async (req, res) => {
-	const path = `documents/${req.body.fileName}`;
-	ocr.extract(path)
-}
-
 const ocrDocs = async (req, res) => {
 	const path = `documents/${req.body.fileName}`;
 	
 	let data = await ocr.ocr_with_tesseract(path);
 	console.log(data);
 	res.send(data);
+
+	deleteFile(path, waitTime);
+}
+
+const splitFiles = async (req, res) => {
+	const file = req.file;
+	const absPath = path.resolve(file.path);
+	const folderName = path.parse(file.filename).name;
+
+	let outputStream = await split.splitPdf(absPath, folderName);
+
+	const outputFilePath = `documents/${folderName}.zip`
+
+	outputStream.on('finish', () => {
+		let data = fs.readFileSync(outputFilePath);
+		// console.log(data);
+		res.send(data);
+	});
+
+	deleteFile(file.path, waitTime);
+	deleteFile(outputFilePath, waitTime);
 }
 
 module.exports = {
 	mergePdfs,
 	ocrDocs,
-	extract,
+	splitFiles,
 }
 
 
