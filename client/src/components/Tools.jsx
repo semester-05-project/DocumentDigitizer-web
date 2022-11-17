@@ -3,6 +3,7 @@ import { images } from '../javascript/imageImports';
 import MergeModal from './MergeModal';
 import OCRModal from './OCRModal';
 import SplitModal from './SplitModal';
+import RemovePageModal from './RemovePageModal';
 
 const Tools = () => {
 	return (
@@ -41,14 +42,17 @@ const Tools = () => {
 					<p className='my-3'>Insert additional pages to an existing pdf file</p>
 				</div>
 			</div>
+			
 
-			<div className="tool-card card p-3 m-2">
+			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#removeModal">
 				<div className="card-body">
 					<img src={images.delete_file} alt="remove_icon" />
 					<span className='ms-4 fw-bold'>Remove Pages</span>
 					<p className='my-3'>Remove pages from an existing pdf file</p>
 				</div>
 			</div>
+			<RemovePageModal />
+			
 		</div>
 	);
 }

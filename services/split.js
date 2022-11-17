@@ -20,10 +20,10 @@ const splitPdf = async (pathToPdf, folderName) => {
 	});
 	archive.pipe(outputStream);
 
-    const docmentAsBytes = await fs.promises.readFile(pathToPdf);
+    const documentAsBytes = await fs.promises.readFile(pathToPdf);
 
     // Load your PDFDocument
-    const pdfDoc = await PDFDocument.load(docmentAsBytes)
+    const pdfDoc = await PDFDocument.load(documentAsBytes)
 
     const numberOfPages = pdfDoc.getPages().length;
 

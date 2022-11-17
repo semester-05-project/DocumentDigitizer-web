@@ -1,10 +1,12 @@
 const merger = require('../services/merger');
 const ocr = require('../services/ocr');
 const split = require('../services/split');
+const remove = require('../services/remove');
+
 const fs = require('fs');
 const uuidv4 = require('uuid');
 const path = require('path');
-const { json } = require('node:stream/consumers');
+const PDFDocument = require('pdf-lib').PDFDocument;
 
 const waitTime = 1 * 60 * 1000; // one minute
 const deleteFile = async (filePath, waitTime) => {
@@ -86,10 +88,43 @@ const splitFiles = async (req, res) => {
 	deleteFile(outputFilePath, waitTime);
 }
 
+const uploadPdfAndGetData = async (req, res) => {
+	const documentAsBytes = await fs.promises.readFile(req.file.path);
+    const pdfDoc = await PDFDocument.load(documentAsBytes);
+	const numberOfPages = pdfDoc.getPages().length;
+	res.send({ pages: numberOfPages, name: req.file.filename });
+}
+
+const getBuffer = async (req, res) => {
+	const filename = req.body.name;
+	let buffer = fs.readFileSync(`documents/${filename}`);
+	res.send(buffer); 
+}
+
+const removePages = async (req, res) => {
+	const pathToPdf = `documents/${req.body.fileName}`;
+	const pagesList = req.body.pages.map((num) => {
+		return parseInt(num);
+	});
+
+	const buffer = await remove.removePages(pagesList, pathToPdf);
+
+	const pdfDoc = await PDFDocument.load(buffer);
+	const numberOfPages = pdfDoc.getPages().length;
+
+	// console.log(numberOfPages);
+
+	res.send(remove.toBuffer(buffer));
+
+}
+
 module.exports = {
 	mergePdfs,
 	ocrDocs,
 	splitFiles,
+	uploadPdfAndGetData,
+	getBuffer,
+	removePages,
 }
 
 

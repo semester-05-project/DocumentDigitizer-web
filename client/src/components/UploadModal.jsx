@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Spinner from './Spinner';
 // import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
@@ -10,6 +11,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const [loaded, setLoaded] = useState(0);
     const [url, setUrl] = useState(null);
     const [fileError, setFileError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
     const handleFileInput = (e, fileInputClass) => {
 		// console.log(mimeType);
@@ -19,6 +21,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
 
     useEffect(() => {
         if (file){
+			setLoading(true);
             let fileName = file.name;
             if (fileName.length >= 12){
                 let splitName = fileName.split('.');
@@ -29,7 +32,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     }, [file]);
 
     const handleFileUpload = (event, mimeType, extension) => {
-		console.log(event.target);
         const curr_file = event.target.files[0];
 
         if (curr_file && curr_file.type === mimeType){
@@ -58,7 +60,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
         }
         axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
-                console.log(res);
+				setLoading(false);
+                // console.log(res);
 				let url = "";
 				if (extension === 'pdf'){
 					url = URL.createObjectURL(new Blob([res.data], { type: "application/zip" }));
@@ -129,6 +132,11 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                                 <i className="fas fa-check col-1 fs-4 p-0 align-self-center text-center"></i>
                             </li>
                         </section>
+
+						<section className='text-center'>
+							{(progress === 100) && loading && <Spinner color="text-info" />}
+						</section>
+						
 
                         {/* Download */}
                         <section className={`uploaded-area ${color} p-3 rounded mb-2 ${(url) ? "" : "d-none"}`}>

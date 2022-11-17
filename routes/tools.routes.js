@@ -63,6 +63,9 @@ let uploadOcr = multer({
 router.post('/merge', uploadPdf.array('files'), toolsController.mergePdfs);
 router.post('/ocr', uploadOcr.single('file'), toolsController.ocrDocs);
 router.post('/split', uploadPdf.single('files'), toolsController.splitFiles);
+router.post('/getData', uploadPdf.single('file'), toolsController.uploadPdfAndGetData);
+router.post('/getBuffer', toolsController.getBuffer);
+router.post('/removePages', toolsController.removePages);
 
 module.exports = router; 
 
