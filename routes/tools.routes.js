@@ -64,8 +64,10 @@ router.post('/merge', uploadPdf.array('files'), toolsController.mergePdfs);
 router.post('/ocr', uploadOcr.single('file'), toolsController.ocrDocs);
 router.post('/split', uploadPdf.single('files'), toolsController.splitFiles);
 router.post('/getData', uploadPdf.single('file'), toolsController.uploadPdfAndGetData);
+router.post('/getPdfData', uploadPdf.single('file'), toolsController.getPdfData);
 router.post('/getBuffer', toolsController.getBuffer);
 router.post('/removePages', toolsController.removePages);
+router.post('/addPages', uploadPdf.array('files'), toolsController.addFiles);
 
 module.exports = router; 
 

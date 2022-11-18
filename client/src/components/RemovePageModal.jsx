@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { images } from '../javascript/imageImports';
-import PdfViewer from './PdfViewer';
+// import PdfViewer from './PdfViewer';
 
 const RemovePageModal = () => {
 	const [err, setErr] = useState(null);
@@ -178,9 +178,12 @@ const RemovePageModal = () => {
 								</div>
 							</div>
 
-							<div className="pdf-view col-10 col-md-6 p-4 my-2">
+							<div className="pdf-view col-10 col-md-6 p-4 my-2 bg-secondary">
 								{/* pdf viewer here */}
-								<iframe src={pdfUrl} frameBorder="0" style={{height: "400px", width: "100%"}}></iframe>
+								{!pdfUrl && <section className='text-center text-white'>
+									No files added
+								</section>}
+								{pdfUrl && <iframe src={pdfUrl} frameBorder="0" style={{height: "400px", width: "100%"}}></iframe>}
 							</div>
 
 						</div>
@@ -193,27 +196,31 @@ const RemovePageModal = () => {
 									<p className='fw-bold'>file name: {file ? file.name : "No file selected"}</p>
 									<p className='fw-bold'>number of pages: {pages}</p>
 
-									<p className={(file) ? "" : "d-none"}>Select the pages you want to remove</p>
 
-									<div className="btn-group" role="group" aria-label="checkbox toggle button group for pages">
-										{getButtonsForPages()}
-									</div>
+									{(pages > 1) ? <>
+										<p className={(file) ? "" : "d-none"}>Select the pages you want to remove</p>
 
-									<div className="m-3 me-auto border-0 d-flex flex-row">
-										<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleRemove}>
-											<span>Run</span>
-											<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
-										</button>
+									
+										<div className="btn-group" role="group" aria-label="checkbox toggle button group for pages">
+											{getButtonsForPages()}
+										</div>
 
-										{removedUrl && 
-										<a href={removedUrl} className="text-decoration-none" download={(resultFileName !== "") ? `${resultFileName}.pdf` : "result.pdf"}>
-											<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
-												<span>Download</span>
-												<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+										<div className="m-3 me-auto border-0 d-flex flex-row">
+											<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleRemove}>
+												<span>Run</span>
+												<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
 											</button>
-										</a>
-										}
-									</div>
+
+											{removedUrl && 
+											<a href={removedUrl} className="text-decoration-none" download={(resultFileName !== "") ? `${resultFileName}.pdf` : "result.pdf"}>
+												<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
+													<span>Download</span>
+													<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+												</button>
+											</a>
+											}
+										</div>
+									</> : <p className='text-danger'>Select a pdf file with more than one page</p>}
 								</div>
 							</div>
 

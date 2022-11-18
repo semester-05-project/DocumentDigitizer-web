@@ -4,6 +4,7 @@ import MergeModal from './MergeModal';
 import OCRModal from './OCRModal';
 import SplitModal from './SplitModal';
 import RemovePageModal from './RemovePageModal';
+import AddPageModal from './AddPageModal';
 
 const Tools = () => {
 	return (
@@ -35,14 +36,14 @@ const Tools = () => {
 			</div>
 			<SplitModal />
 
-			<div className="tool-card card p-3 m-2">
+			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#addPageModal">
 				<div className="card-body">
 					<img src={images.add} alt="add_icon" />
 					<span className='ms-4 fw-bold'>Add Pages</span>
 					<p className='my-3'>Insert additional pages to an existing pdf file</p>
 				</div>
 			</div>
-			
+			<AddPageModal />
 
 			<div className="tool-card card p-3 m-2" data-bs-toggle="modal" data-bs-target="#removeModal">
 				<div className="card-body">

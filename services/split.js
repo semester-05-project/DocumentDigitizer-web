@@ -23,7 +23,7 @@ const splitPdf = async (pathToPdf, folderName) => {
     const documentAsBytes = await fs.promises.readFile(pathToPdf);
 
     // Load your PDFDocument
-    const pdfDoc = await PDFDocument.load(documentAsBytes)
+    const pdfDoc = await PDFDocument.load(documentAsBytes);
 
     const numberOfPages = pdfDoc.getPages().length;
 

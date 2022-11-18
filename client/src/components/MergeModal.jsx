@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { images } from '../javascript/imageImports';
 import axios from 'axios';
+import Spinner from './Spinner';
+import Alert from './Alert';
 
 const MergeModal = () => {
 	const [files, setFiles] = useState(null);
 	const [url, setUrl] = useState(null);
 	const [progress, setProgress] = useState(0);
 	const [loaded, setLoaded] = useState(0);
+	const [err, setErr] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const [resultFileName, setResultFileName] = useState("");
 
 	const handleFileInput = (e) => {
 		e.target.parentElement.querySelector('.file-input').click();
@@ -18,6 +23,13 @@ const MergeModal = () => {
 			new_files.push(f[i]);
 		}
 		setFiles(new_files);
+
+		if (files && files.length <= 1){
+			setErr("Select more than one file to merge");
+		}
+		else{
+			setErr(null);
+		}
 	}
 
 	const handleFileDisplay = () => {
@@ -88,6 +100,10 @@ const MergeModal = () => {
 
 	const handleFileUpload = () => {
 		if (files && files.length > 1){
+
+			setErr(null);
+			setLoading(true);
+
 			const formData = new FormData();
 			files.forEach(file => {
 				formData.append("files", file);
@@ -104,24 +120,24 @@ const MergeModal = () => {
 			}
 			axios.post(`http://localhost:4000/tools/merge`, formData, config)
 				.then(res => {
-					console.log(res);
+					setLoading(false);
+					// console.log(res);
 					let url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
 					setUrl(url);
 				})
 				.catch((err) => {
 					if (err.code === "ERR_BAD_REQUEST"){
-						alert("Network Error: Please try again later");
-						window.location.reload();
+						setErr("Network Error: Please try again later");
 					}
 					else{
-						alert(err.message);
-						window.location.reload();
+						setErr(err.message);
 					}
 					
 				});
 		}
 		else{
-			alert("Select more than one file to merge");
+			// alert("Select more than one file to merge");
+			setErr("Select more than one file to merge");
 		}
 	}
 
@@ -132,11 +148,14 @@ const MergeModal = () => {
 				<div className="modal-content">
 					<div className="modal-body">
 						<button type="button" className="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-						<div className="files-to-merge card m-3 mx-auto" style={{width: "90vw", minHeight: "12rem"}}>
+						<div className="files-to-merge card m-3 mx-auto w-100" style={{minHeight: "12rem"}}>
 							<div className="card-body">
 								<input type="file" accept='application/pdf' className='file-input' onChange={e => handleAddFiles(e.target.files)} multiple hidden />
 								<button className='btn btn-outline-info mb-2 mx-2' onClick={e => handleFileInput(e)}>Add</button>
 								<button className='btn btn-outline-danger mb-2 mx-2' onClick={handleClearAll}>Clear All</button>
+
+								{err && <Alert message={err} />}
+
 								<table className="table align-middle table-striped table-hover table-bordered col-8 text-center">
 									<thead className="thead">
 										<tr>
@@ -159,14 +178,28 @@ const MergeModal = () => {
 								</div>
 							</div>
 						</div>
-						<div className="card m-3 mx-auto border-0 d-flex flex-row" style={{width: "90vw"}}>
-							<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleFileUpload}>
-								<span>Run</span>
-								<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+
+						<div className="output-settings card m-3 mx-auto w-100">
+							<div className="card-body">
+								<h5 className="topic fs-5 mb-4">Output Settings</h5>
+								<div className="form-floating mb-3">
+									<input type="text" className="form-control" id="resultFileName" placeholder='result file name' onChange={(e) => {setResultFileName(e.target.value)}} />
+									<label htmlFor="resultFileName">Set result file name</label>
+								</div>
+							</div>
+						</div>
+
+						<div className="card m-3 mx-auto border-0 d-flex flex-row w-100">
+							<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' disabled={(err) ? true : false} onClick={handleFileUpload}>
+								{!err && loading && <Spinner color="text-info" />}
+								{! loading && <>
+									<span>Run</span>
+									<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+								</>}
 							</button>
 
 							{url && 
-							<a href={url} className="text-decoration-none" download>
+							<a href={url} className="text-decoration-none" download={(resultFileName !== "") ? `${resultFileName}.pdf` : "merged_file.pdf"}>
 								<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
 									<span>Download</span>
 									<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
@@ -174,6 +207,8 @@ const MergeModal = () => {
 							</a>
 							}
 						</div>
+
+						
 						
 					</div>
 				</div>
