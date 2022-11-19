@@ -60,7 +60,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             },
             responseType: "arraybuffer"
         }
-        axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
+        axios.post(`https://document-digitizer-backend.onrender.com/api/${endpoint}`, formData, config)
             .then(res => {
 				setLoading(false);
 				setErr(null);

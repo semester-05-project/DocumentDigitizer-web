@@ -27,7 +27,7 @@ const SplitModal = () => {
 				},
 				responseType: "arraybuffer"
 			}
-			axios.post(`http://localhost:4000/tools/split`, formData, config)
+			axios.post(`https://document-digitizer-backend.onrender.com/tools/split`, formData, config)
 				.then(res => {
 					console.log(res);
 					let url = URL.createObjectURL(new Blob([res.data], { type: "application/zip" }));

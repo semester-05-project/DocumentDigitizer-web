@@ -118,7 +118,7 @@ const MergeModal = () => {
 				},
 				responseType: "arraybuffer"
 			}
-			axios.post(`http://localhost:4000/tools/merge`, formData, config)
+			axios.post(`https://document-digitizer-backend.onrender.com/tools/merge`, formData, config)
 				.then(res => {
 					setLoading(false);
 					// console.log(res);

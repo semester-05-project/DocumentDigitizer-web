@@ -93,7 +93,7 @@ const AddPageModal = () => {
 			responseType: "arraybuffer"
 		}
         
-        axios.post(`http://localhost:4000/tools/addPages`, formData, config)
+        axios.post(`https://document-digitizer-backend.onrender.com/tools/addPages`, formData, config)
             .then(res => {
 				setLoading(false);
 				setErr(null);

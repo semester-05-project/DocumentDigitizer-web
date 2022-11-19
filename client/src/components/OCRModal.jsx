@@ -53,7 +53,7 @@ const OCRModal = () => {
             },
             responseType: "arraybuffer"
         }
-        axios.post(`http://localhost:4000/tools/ocr`, formData, config)
+        axios.post(`https://document-digitizer-backend.onrender.com/tools/ocr`, formData, config)
             .then(res => {
                 // console.log(res.data);
 				let url = URL.createObjectURL(new Blob([res.data], { type: "text/plain" }));

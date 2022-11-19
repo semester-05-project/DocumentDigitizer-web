@@ -44,14 +44,14 @@ const RemovePageModal = () => {
 				},
 				responseType: "arraybuffer"
 			}
-			axios.post(`http://localhost:4000/tools/getData`, formData)
+			axios.post(`https://document-digitizer-backend.onrender.com/tools/getData`, formData)
 				.then(res => {
 					// console.log(res.data);
 					setPages(res.data.pages);
 
 					const name = res.data.name;
 					setFileName(name);
-					axios.post(`http://localhost:4000/tools/getBuffer`, { name }, { responseType: "arraybuffer" })
+					axios.post(`https://document-digitizer-backend.onrender.com/tools/getBuffer`, { name }, { responseType: "arraybuffer" })
 						.then(res => {
 							// console.log(res.data);
 							let url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
@@ -82,7 +82,7 @@ const RemovePageModal = () => {
 				pages: checkedPages,
 				fileName: fileName,
 			}
-			axios.post('http://localhost:4000/tools/removePages', body, { responseType: "arraybuffer" })
+			axios.post('https://document-digitizer-backend.onrender.com/tools/removePages', body, { responseType: "arraybuffer" })
 				.then(res => {
 					// console.log(res.data);
 					let url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
