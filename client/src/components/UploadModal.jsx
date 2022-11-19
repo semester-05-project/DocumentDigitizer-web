@@ -15,6 +15,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
 	const [err, setErr] = useState(null);
 	const [loading, setLoading] = useState(false);
 
+	const localhostUrl = 'http://localhost:4000';
+
     const handleFileInput = (e, fileInputClass) => {
 		// console.log(mimeType);
         const fileInput = document.querySelector("." + fileInputClass);
@@ -51,7 +53,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const uploadFile = async (fileName, endpoint, extension) => {
         const formData = new FormData();
         formData.append(extension, file);
-		formData.append('fileName', fileName);
         
         const config = {
             onUploadProgress: function(progressEvent){
@@ -61,7 +62,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             },
             responseType: "arraybuffer"
         }
-        axios.post(`https://document-digitizer-backend.onrender.com/api/${endpoint}`, formData, config)
+        axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
             .then(res => {
 				setLoading(false);
 				setErr(null);
@@ -113,10 +114,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                                 {fileError}
                             </div>
                         </form>
-
-						<section className='text-center'>
-							{!err && loading && <Spinner color="text-info" />}
-						</section>
 
                         {/* Uploading */}
                         <section className={`progress-area ${color} p-3 rounded mb-2 ${(progress === 0 || progress === 100) ? "d-none" : ""}`}>

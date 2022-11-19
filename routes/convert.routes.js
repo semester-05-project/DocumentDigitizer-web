@@ -16,6 +16,7 @@ const getStorage = (directory) => {
         },
         filename: (req, file, cb) => {
             const fileName = uuidv4() + file.originalname.toLowerCase().split(' ').join('-');
+			console.log(fileName);
 			req.body['fileName'] = fileName;
             cb(null, fileName);
         }

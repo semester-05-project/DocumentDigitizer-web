@@ -6,6 +6,7 @@ var toPdf = require("office-to-pdf");
 
 // docType => document, image etc.
 const convert = async (filePath, resultPath, api, docType, output={}) => {
+	console.log("converting...");
 
     // https://api.pspdfkit.com/build
 
@@ -23,15 +24,15 @@ const convert = async (filePath, resultPath, api, docType, output={}) => {
     try{
         const res = await axios.post(api, formData, {
             headers: formData.getHeaders({
-                'Authorization': `Bearer ${process.env.PSPDFKIT_API_KEY}`
+                'Authorization': `Bearer pdf_live_05N8YBp2PdZOcco4IHWsbJsuLNZ9L2PxpGVIqkzoSpS`
             }),
             responseType: "stream"
         })
         return res.data.pipe(fs.createWriteStream(resultPath));
     }
     catch(err){
-        const error = await streamToString(err.response);
-        console.log(error);
+        // const error = await streamToString(err.response);
+        console.error(err);
     }
 }
 

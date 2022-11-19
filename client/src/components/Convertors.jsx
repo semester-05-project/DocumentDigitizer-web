@@ -265,7 +265,7 @@ const Convertors = () => {
 					extension='pdf'
 					endpoint='pdfToPngUpload'
 					endpoint2='convertDocument'
-					color='pdf'
+					color='pptx'
 				/>
 
 				{/* Pdf to Jpg */}
@@ -291,7 +291,7 @@ const Convertors = () => {
 					extension='pdf'
 					endpoint='pdfToJpgUpload'
 					endpoint2='convertDocument'
-					color='pdf'
+					color='pptx'
 				/>
 
 				{/* Pdf to Webp */}
@@ -317,7 +317,7 @@ const Convertors = () => {
 					extension='pdf'
 					endpoint='pdfToWebpUpload'
 					endpoint2='convertDocument'
-					color='pdf'
+					color='pptx'
 				/>
 
 				{/* Pdf to html */}
@@ -343,7 +343,7 @@ const Convertors = () => {
 					extension='pdf'
 					endpoint=''
 					endpoint2='convertDocument'
-					color='pdf'
+					color='pptx'
 				/>
 
 
