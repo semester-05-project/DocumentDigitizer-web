@@ -29,7 +29,8 @@ const Convertors = () => {
 					fileInputClass="docx-input"
 					mimeType='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 					extension='docx'
-					endpoint='convertDocument'
+					endpoint='docxToPdfUpload'
+					endpoint2='convertDocument'
 					color='docx'
 				/>
 
@@ -54,7 +55,8 @@ const Convertors = () => {
 					fileInputClass="doc-to-pdf-input"
 					mimeType='application/msword'
 					extension='doc'
-					endpoint='convertDocument'
+					endpoint='docToPdfUpload'
+					endpoint2='convertDocument'
 					color='docx'
 				/>
 
@@ -79,7 +81,8 @@ const Convertors = () => {
 					fileInputClass="xlsx-input"
 					mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 					extension='xlsx'
-					endpoint='convertDocument'
+					endpoint='xlsxToPdfUpload'
+					endpoint2='convertDocument'
 					color='xlsx'
 				/>
 
@@ -104,7 +107,8 @@ const Convertors = () => {
 					fileInputClass="xls-input"
 					mimeType='application/vnd.ms-excel'
 					extension='xls'
-					endpoint='convertDocument'
+					endpoint='xlsToPdfUpload'
+					endpoint2='convertDocument'
 					color='xlsx'
 				/>
 
@@ -129,7 +133,8 @@ const Convertors = () => {
 					fileInputClass="pptx-input"
 					mimeType='application/vnd.openxmlformats-officedocument.presentationml.presentation'
 					extension='pptx'
-					endpoint='convertDocument'
+					endpoint='pptxToPdfUpload'
+					endpoint2='convertDocument'
 					color='pptx'
 				/>
 
@@ -154,7 +159,8 @@ const Convertors = () => {
 					fileInputClass="ppt-input"
 					mimeType='application/vnd.ms-powerpoint'
 					extension='ppt'
-					endpoint='convertDocument'
+					endpoint='pptToPdfUpload'
+					endpoint2='convertDocument'
 					color='pptx'
 				/>
 
@@ -179,7 +185,8 @@ const Convertors = () => {
 					fileInputClass="png-input"
 					mimeType='image/png'
 					extension='png'
-					endpoint=''
+					endpoint='pngToPdfUpload'
+					endpoint2='convertDocument'
 					color='png'
 				/>
 
@@ -204,7 +211,8 @@ const Convertors = () => {
 					fileInputClass="jpg-input"
 					mimeType='image/jpeg'
 					extension='jpg'
-					endpoint=''
+					endpoint='jpgToPdfUpload'
+					endpoint2='convertDocument'
 					color='jpg'
 				/>
 
@@ -230,6 +238,7 @@ const Convertors = () => {
 					mimeType='image/webp'
 					extension='webp'
 					endpoint=''
+					endpoint2='convertDocument'
 					color='webp'
 				/>
 
@@ -254,7 +263,8 @@ const Convertors = () => {
 					fileInputClass="pdf-to-png-input"
 					mimeType='application/pdf'
 					extension='pdf'
-					endpoint=''
+					endpoint='pdfToPngUpload'
+					endpoint2='convertDocument'
 					color='pdf'
 				/>
 
@@ -279,7 +289,8 @@ const Convertors = () => {
 					fileInputClass="pdf-to-jpg-input"
 					mimeType='application/pdf'
 					extension='pdf'
-					endpoint=''
+					endpoint='pdfToJpgUpload'
+					endpoint2='convertDocument'
 					color='pdf'
 				/>
 
@@ -304,7 +315,8 @@ const Convertors = () => {
 					fileInputClass="pdf-to-webp-input"
 					mimeType='application/pdf'
 					extension='pdf'
-					endpoint=''
+					endpoint='pdfToWebpUpload'
+					endpoint2='convertDocument'
 					color='pdf'
 				/>
 
@@ -330,6 +342,7 @@ const Convertors = () => {
 					mimeType='application/pdf'
 					extension='pdf'
 					endpoint=''
+					endpoint2='convertDocument'
 					color='pdf'
 				/>
 

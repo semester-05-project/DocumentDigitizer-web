@@ -5,7 +5,7 @@ import Alert from './Alert';
 // import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
-const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint, color }) => {
+const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint, endpoint2, color }) => {
 
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -50,7 +50,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     
     const uploadFile = async (fileName, endpoint, extension) => {
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append(extension, file);
+		formData.append('fileName', fileName);
         
         const config = {
             onUploadProgress: function(progressEvent){
