@@ -23,7 +23,7 @@ const convert = async (filePath, resultPath, api, docType, output={}) => {
     try{
         const res = await axios.post(api, formData, {
             headers: formData.getHeaders({
-                'Authorization': 'Bearer pdf_live_05N8YBp2PdZOcco4IHWsbJsuLNZ9L2PxpGVIqkzoSpS'
+                'Authorization': `Bearer ${process.env.PSPDFKIT_API_KEY}`
             }),
             responseType: "stream"
         })
