@@ -17,12 +17,51 @@ const deleteFile = async (filePath, waitTime) => {
 	}, waitTime);
 }
 
+// office to pdf
 const handleDocxToPdf = async (req, res) => {
 
 	const fileName = req.body.fileName;
 
     const filePath = 'documents/' + fileName;
     const resultPath = 'documents/'+ uuidv4() +'resultDocxFile.pdf';
+    const api = 'https://api.pspdfkit.com/build';
+	const docType = "document";
+
+    try{
+        let stream = await converter.convert(filePath, resultPath, api, docType);
+        console.log("successfully converted file: " + fileName);
+
+        const resultFilePath = path.resolve(resultPath); 
+
+		stream.on('finish', () => {
+			console.log(fs.existsSync(resultPath));
+            fs.readFile(resultFilePath, function(err, data){
+                if (err){
+                    console.log(err);
+                    res.send(400, err);
+                }
+                else{
+                    res.contentType("application/pdf");
+                    res.send(data);
+                }
+            });
+		});
+
+		deleteFile(resultFilePath, waitTime);
+		deleteFile(filePath, waitTime);
+        
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+const handleDocToPdf = async (req, res) => {
+
+	const fileName = req.body.fileName;
+
+    const filePath = 'documents/' + fileName;
+    const resultPath = 'documents/'+ uuidv4() +'resultDocFile.pdf';
     const api = 'https://api.pspdfkit.com/build';
 	const docType = "document";
 
@@ -92,6 +131,43 @@ const handleXlsxToPdf = async (req, res) => {
     }
 }
 
+const handleXlsToPdf = async (req, res) => {
+
+    const fileName = req.body.fileName;
+
+    const filePath = 'documents/' + fileName;
+    const resultPath = 'documents/'+ uuidv4() +'resultXlsFile.pdf';
+    const api = 'https://api.pspdfkit.com/build';
+	const docType = "document";
+
+    try{
+        let stream = await converter.convert(filePath, resultPath, api, docType);
+        console.log("successfully converted file: " + fileName);
+
+        const resultFilePath = path.resolve(resultPath);
+		stream.on('finish', () => {
+			console.log(fs.existsSync(resultPath));
+            fs.readFile(resultFilePath, function(err, data){
+                if (err){
+                    console.log(err);
+                    res.send(400, err);
+                }
+                else{
+                    res.contentType("application/pdf");
+                    res.send(data);
+                }
+            });
+		});
+
+		deleteFile(resultFilePath, waitTime);
+		deleteFile(filePath, waitTime);
+        
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 const handlePptxToPdf = async (req, res) => {
 	const fileName = req.body.fileName;
 
@@ -128,6 +204,43 @@ const handlePptxToPdf = async (req, res) => {
     }
 }
 
+const handlePptToPdf = async (req, res) => {
+	const fileName = req.body.fileName;
+
+    const filePath = 'documents/' + fileName;
+    const resultPath = 'documents/'+ uuidv4() +'resultPptFile.pdf';
+    const api = 'https://api.pspdfkit.com/build';
+	const docType = "document";
+
+    try{
+        let stream = await converter.convert(filePath, resultPath, api, docType);
+        console.log("successfully converted file: " + fileName);
+
+        const resultFilePath = path.resolve(resultPath);
+		stream.on('finish', () => {
+			console.log(fs.existsSync(resultPath));
+            fs.readFile(resultFilePath, function(err, data){
+                if (err){
+                    console.log(err);
+                    res.send(400, err);
+                }
+                else{
+                    res.contentType("application/pdf");
+                    res.send(data);
+                }
+            });
+		});
+
+		deleteFile(resultFilePath, waitTime);
+		deleteFile(filePath, waitTime);
+        
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+// image to pdf
 const handlePngToPdf = async (req, res) => {
 	const fileName = req.body.fileName;
 
@@ -164,6 +277,43 @@ const handlePngToPdf = async (req, res) => {
     }
 }
 
+const handleJpgToPdf = async (req, res) => {
+	const fileName = req.body.fileName;
+
+    const filePath = 'documents/' + fileName;
+    const resultPath = 'documents/resultJpgFile.pdf';
+    const api = 'https://api.pspdfkit.com/build';
+	const docType = "image";
+
+    try{
+        let stream = await converter.convert(filePath, resultPath, api, docType);
+        console.log("successfully converted file: " + fileName);
+
+        const resultFilePath = path.resolve(resultPath);
+		stream.on('finish', () => {
+			console.log(fs.existsSync(resultPath));
+            fs.readFile(resultFilePath, function(err, data){
+                if (err){
+                    console.log(err);
+                    res.send(400, err);
+                }
+                else{
+                    res.contentType("application/pdf");
+                    res.send(data);
+                }
+            });
+		});
+
+		deleteFile(resultFilePath, waitTime);
+		deleteFile(filePath, waitTime);
+        
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+// pdf to image
 const handlePdfToJpg = async (req, res) => {
 	const fileName = req.body.fileName;
 
@@ -290,42 +440,8 @@ const handlePdfToWebp = async (req, res) => {
     }
 }
 
-const handleJpgToPdf = async (req, res) => {
-	const fileName = req.body.fileName;
 
-    const filePath = 'documents/' + fileName;
-    const resultPath = 'documents/resultJpgFile.pdf';
-    const api = 'https://api.pspdfkit.com/build';
-	const docType = "image";
-
-    try{
-        let stream = await converter.convert(filePath, resultPath, api, docType);
-        console.log("successfully converted file: " + fileName);
-
-        const resultFilePath = path.resolve(resultPath);
-		stream.on('finish', () => {
-			console.log(fs.existsSync(resultPath));
-            fs.readFile(resultFilePath, function(err, data){
-                if (err){
-                    console.log(err);
-                    res.send(400, err);
-                }
-                else{
-                    res.contentType("application/pdf");
-                    res.send(data);
-                }
-            });
-		});
-
-		deleteFile(resultFilePath, waitTime);
-		deleteFile(filePath, waitTime);
-        
-    }
-    catch(error){
-        console.log(error);
-    }
-}
-
+// without the third party API
 const handleDocumentConvertor = async (req, res) => {
 	const fileName = req.body.fileName;
     // const resultPath = 'documents/' + uuidv4() +'result.pdf';
@@ -349,5 +465,10 @@ const handleDocumentConvertor = async (req, res) => {
 
 
 module.exports = {
-    handleDocumentConvertor
+    handleDocumentConvertor,
+	handleDocxToPdf, handleDocToPdf,
+	handleXlsxToPdf, handleXlsToPdf,
+	handlePptxToPdf, handlePptToPdf,
+	handlePngToPdf, handlePdfToJpg,
+	handlePdfToPng, handlePdfToWebp, handleJpgToPdf
 }

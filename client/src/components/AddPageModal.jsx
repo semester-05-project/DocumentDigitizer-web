@@ -8,8 +8,11 @@ const AddPageModal = () => {
 	const [fileErr, setFileErr] = useState(null);
 	const [pageErr, setPageErr] = useState(null);
 	const [err, setErr] = useState(null);
+
+	// both contains files
 	const [file, setFile] = useState(null);
 	const [addPages, setAddPages] = useState(null);
+
 	const [resultFileName, setResultFileName] = useState("");
 	const [url, setUrl] = useState(null);
 	const [pages, setPages] = useState(0);

@@ -64,7 +64,7 @@ const SplitModal = () => {
 									<form className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={handleFileInput}>
 										<input type="file" name='file' hidden accept='application/pdf' className={`file-split-input ${(err) ? "is-invalid" : ""}`} onChange={(e) => setFile(e.target.files[0])} />
 										<i className="fas fa-cloud-upload-alt fs-1"></i>
-										<p className='mt-4 lead'>Browse File to Upload</p>
+										<p className='mt-4 lead'>Browse a File to Split</p>
 										<div className="invalid-feedback">
 											{err}
 										</div>
@@ -89,22 +89,20 @@ const SplitModal = () => {
 							<div className="settings-section col-10 col-md-8 p-4 my-2">
 								<div className="split-files card w-100">
 									<div className="card-body">
-										<h5 className="topic fs-5">Split by pages</h5>
-										<div className="card m-3 me-auto border-0 d-flex flex-row">
-											<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleSplit}>
-												<span>Run</span>
-												<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
-											</button>
+										<h5 className="topic fs-5 mb-3">Split by pages</h5>
+										<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleSplit}>
+											<span>Run</span>
+											<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+										</button>
 
-											{url && 
-											<a href={url} className="text-decoration-none" download>
-												<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
-													<span>Download</span>
-													<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
-												</button>
-											</a>
-											}
-										</div>
+										{url && 
+										<a href={url} className="text-decoration-none" download>
+											<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
+												<span>Download</span>
+												<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+											</button>
+										</a>
+										}
 									</div>
 								</div>
 							</div>
