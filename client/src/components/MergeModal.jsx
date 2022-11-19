@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { images } from '../javascript/imageImports';
 import axios from 'axios';
+import url_config from '../url.config.json';
 import Spinner from './Spinner';
 import Alert from './Alert';
 
@@ -12,6 +13,8 @@ const MergeModal = () => {
 	const [err, setErr] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [resultFileName, setResultFileName] = useState("");
+
+	const [count, setCount] = useState(1);
 
 	const handleFileInput = (e) => {
 		e.target.parentElement.querySelector('.file-input').click();
@@ -39,7 +42,13 @@ const MergeModal = () => {
 				let date = new Date(files[i].lastModifiedDate);
 				rows.push(
 					<tr key={i}>
-						<th scope='row'>{i + 1}</th>
+						<th scope='row'>
+							{/* <div className="form-check form-check-inline">
+								<input type="checkbox" id={i} className="form-check-input" onChange={handleOrder} />
+								<label htmlFor={i} className="form-check-label"></label>
+							</div> */}
+							{i+1}
+						</th>
 						<td>{files[i].name}</td>
 						<td>{(files[i].size/1024 < 1024) ? (files[i].size / 1024).toFixed(2) + " KB" : (files[i].size / (1024*1024)).toFixed(2) + " MB"}</td>
 						<td>{date.toDateString()}</td>
@@ -58,41 +67,62 @@ const MergeModal = () => {
 		
 	}
 
-	const handleSortFilesByName = () => {
+	const handleSortFilesByName = (e) => {
+		let input = e.target.parentElement.querySelector('input');
+		
 		let new_files = [];
 		if (files){
 			for (let i = 0; i < files.length; i += 1){
 				new_files.push(files[i]);
 			}
 
-			new_files.sort((file1, file2) => file1.name < file2.name ? 1 : file1.name > file2.name ? -1 : 0);
+			if (! input.checked){
+				new_files.sort((file1, file2) => file1.name < file2.name ? 1 : file1.name > file2.name ? -1 : 0);
+			}
+			else{
+				new_files.sort((file1, file2) => file1.name > file2.name ? 1 : file1.name < file2.name ? -1 : 0);
+			}
 
 			setFiles(new_files);
 		}
 		
 	}
 
-	const handleSortFilesBySize = () => {
+	const handleSortFilesBySize = (e) => {
+		let input = e.target.parentElement.querySelector('input');
+
 		let new_files = [];
 		if (files){
 			for (let i = 0; i < files.length; i += 1){
 				new_files.push(files[i]);
 			}
 
-			new_files.sort((file1, file2) => file1.size < file2.size ? 1 : file1.size > file2.size ? -1 : 0);
+			if (! input.checked){
+				new_files.sort((file1, file2) => file1.size < file2.size ? 1 : file1.size > file2.size ? -1 : 0);
+			}
+			else{
+				new_files.sort((file1, file2) => file1.size > file2.size ? 1 : file1.size < file2.size ? -1 : 0);
+			}
 
 			setFiles(new_files);
 		}
 	}
 
-	const handleSortFilesByLastModifiedDate = () => {
+	const handleSortFilesByLastModifiedDate = (e) => {
+		let input = e.target.parentElement.querySelector('input');
+
 		let new_files = [];
 		if (files){
 			for (let i = 0; i < files.length; i += 1){
 				new_files.push(files[i]);
 			}
 
-			new_files.sort((file1, file2) => file1.lastModifiedDate < file2.lastModifiedDate ? 1 : file1.lastModifiedDate > file2.lastModifiedDate ? -1 : 0);
+			if (! input.checked){
+				new_files.sort((file1, file2) => file1.lastModifiedDate < file2.lastModifiedDate ? 1 : file1.lastModifiedDate > file2.lastModifiedDate ? -1 : 0);
+			}
+			else{
+				new_files.sort((file1, file2) => file1.lastModifiedDate > file2.lastModifiedDate ? 1 : file1.lastModifiedDate < file2.lastModifiedDate ? -1 : 0);
+			}
 
 			setFiles(new_files);
 		}
@@ -118,7 +148,7 @@ const MergeModal = () => {
 				},
 				responseType: "arraybuffer"
 			}
-			axios.post(`https://document-digitizer-backend.onrender.com/tools/merge`, formData, config)
+			axios.post(`${url_config.SERVER_URL}/tools/merge`, formData, config)
 				.then(res => {
 					setLoading(false);
 					// console.log(res);
@@ -142,6 +172,7 @@ const MergeModal = () => {
 	}
 
 
+
 	return (
 		<div className="modal fade" id="mergeModal" tabIndex="-1" aria-labelledby="mergeModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
@@ -160,10 +191,28 @@ const MergeModal = () => {
 									<thead className="thead">
 										<tr>
 											<th scope="col">#</th>
-											<th scope="col">File Name</th>
-											<th scope="col">File Size</th>
+											<th scope="col" className='name-header'>
+												File Name
+												<input type="checkbox" className="btn-check" id="btn-check-name" autoComplete="off" />
+												<label className="btn btn-outline-dark mx-3" htmlFor="btn-check-name" onClick={handleSortFilesByName}>
+													<i className="fa fa-sort" aria-hidden="true"></i>
+												</label>
+											</th>
+											<th scope="col" className='size-header'>
+												File Size
+												<input type="checkbox" className="btn-check" id="btn-check-size" autoComplete="off" />
+												<label className="btn btn-outline-dark mx-3" htmlFor="btn-check-size" onClick={handleSortFilesBySize}>
+													<i className="fa fa-sort" aria-hidden="true"></i>
+												</label>
+											</th>
 											{/* <th scope="col">Pages</th> */}
-											<th scope="col">Last Modified</th>
+											<th scope="col" className='date-header'>
+												Last Modified
+												<input type="checkbox" className="btn-check" id="btn-check-date" autoComplete="off" />
+												<label className="btn btn-outline-dark mx-3" htmlFor="btn-check-date" onClick={handleSortFilesByLastModifiedDate}>
+													<i className="fa fa-sort" aria-hidden="true"></i>
+												</label>
+											</th>
 										</tr>
 									</thead>
 									<tbody className="tbody">
@@ -171,11 +220,11 @@ const MergeModal = () => {
 									</tbody>
 								</table>
 
-								<div className="sort-buttons d-flex flex-column">
+								{/* <div className="sort-buttons d-flex flex-column">
 									<button className="btn btn-outline-dark m-2 px-3 me-auto" onClick={handleSortFilesByName} style={{maxWidth: "40%"}}>Arrange Files by Name</button>
 									<button className="btn btn-outline-dark m-2 px-3 me-auto" onClick={handleSortFilesBySize} style={{maxWidth: "40%"}}>Arrange Files by Size</button>
 									<button className="btn btn-outline-dark m-2 px-3 me-auto" onClick={handleSortFilesByLastModifiedDate} style={{maxWidth: "40%"}}>Arrange Files by Last Modified</button>
-								</div>
+								</div> */}
 							</div>
 						</div>
 
