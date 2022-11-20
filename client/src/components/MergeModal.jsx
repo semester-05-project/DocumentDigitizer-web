@@ -4,6 +4,7 @@ import axios from 'axios';
 import url_config from '../url.config.json';
 import Spinner from './Spinner';
 import Alert from './Alert';
+import Toast from './Toast';
 
 const MergeModal = () => {
 	const [files, setFiles] = useState(null);
@@ -177,8 +178,23 @@ const MergeModal = () => {
 		<div className="modal fade" id="mergeModal" tabIndex="-1" aria-labelledby="mergeModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
-					<div className="modal-body">
+					<div className="modal-header">
+						<img src={images.merge_icon} alt="merge_icon" style={{height: "100px", width: "100px"}} />
+						<h5 className="display-6">Merge Files</h5>
 						<button type="button" className="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div className="modal-body">
+						<span className="description my-2">
+							{/* <Toast msg="You can add multiple files in the order you want to merge them as they are displayed." />
+							<Toast msg="Use the sort button to re-order the files in ascending or descending order in each column." />
+							<Toast msg="Set a file name of your choice for the result before downloading or keep the default name." /> */}
+							<ul>
+								<li>You can add multiple files in the order you want to merge them as they are displayed.</li>
+								<li>Use the sort button to re-order the files in ascending or descending order in each column.</li>
+								<li>Set a file name of your choice for the result before downloading or keep the default name.</li>
+							</ul>
+						</span>
+						
 						<div className="files-to-merge card m-3 mx-auto w-100" style={{minHeight: "12rem"}}>
 							<div className="card-body">
 								<input type="file" accept='application/pdf' className='file-input' onChange={e => handleAddFiles(e.target.files)} multiple hidden />

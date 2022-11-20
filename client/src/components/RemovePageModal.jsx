@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { images } from '../javascript/imageImports';
+import url_config from '../url.config.json';
+import Spinner from './Spinner';
+import Alert from './Alert';
+import Toast from './Toast';
 // import PdfViewer from './PdfViewer';
 
 const RemovePageModal = () => {
@@ -12,6 +16,8 @@ const RemovePageModal = () => {
 	const [removedUrl, setRemovedUrl] = useState(null);
 	const [pdfUrl, setPdfUrl] = useState(null);
 	const [loaded, setLoaded] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const [submitLoading, setSubmitLoading] = useState(false);
 	const [pages, setPages] = useState(0);
 	const [checkedPages, setCheckedPages] = useState([]);
 
@@ -33,6 +39,7 @@ const RemovePageModal = () => {
 
 	const uploadFile = () => {
 		if (file){
+			setErr(null);
 			const formData = new FormData();
 			formData.append("file", file);
 			
@@ -44,61 +51,73 @@ const RemovePageModal = () => {
 				},
 				responseType: "arraybuffer"
 			}
-			axios.post(`https://document-digitizer-backend.onrender.com/tools/getData`, formData)
+			axios.post(`${url_config.SERVER_URL}/tools/getData`, formData)
 				.then(res => {
-					// console.log(res.data);
+					setLoading(true);
 					setPages(res.data.pages);
 
 					const name = res.data.name;
 					setFileName(name);
-					axios.post(`https://document-digitizer-backend.onrender.com/tools/getBuffer`, { name }, { responseType: "arraybuffer" })
+
+					axios.post(`${url_config.SERVER_URL}/tools/getBuffer`, { name }, { responseType: "arraybuffer" })
 						.then(res => {
 							// console.log(res.data);
 							let url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
+							setLoading(false);
 							setPdfUrl(url);
 						})
 						.catch(err => console.err(err));
 				})
 				.catch((err) => {
 					if (err.code === "ERR_BAD_REQUEST"){
-						alert("Network Error: Please try again later");
-						window.location.reload();
+						setErr("Network Error: Please try again later");
 					}
 					else{
-						alert(err.message);
-						window.location.reload();
+						setErr(err.message);
 					}
 					
 				});
 		}
 		else{
-			alert("Select a file to remove pages");
+			setErr("Select a file to remove pages");
 		}
 	}
 
 	const handleRemove = () => {
 		if (checkedPages.length !== 0){
-			const body = {
-				pages: checkedPages,
-				fileName: fileName,
+			setErr(null);
+			setSubmitLoading(true);
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append('pages', checkedPages);
+			// const body = {
+			// 	pages: checkedPages,
+			// 	fileName: fileName,
+			// }
+			const config = {
+				onUploadProgress: function(progressEvent){
+					const percentCompleted = (progressEvent.loaded / progressEvent.total)*100;
+					setPerc(percentCompleted);
+					setLoaded(progressEvent.loaded);
+				},
+				responseType: "arraybuffer"
 			}
-			axios.post('https://document-digitizer-backend.onrender.com/tools/removePages', body, { responseType: "arraybuffer" })
+			axios.post(`${url_config.SERVER_URL}/tools/removePages`, formData, config)
 				.then(res => {
 					// console.log(res.data);
 					let url = URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
 					setRemovedUrl(url);
 					setPdfUrl(url);
+					setSubmitLoading(false);
 				})
-				.catch(err => console.err(err));
+				.catch(err => {
+					setErr(err.message);
+				});
 		}
 		else{
-			alert("Pages are not selected to be removed");
+			setErr("Pages are not selected to be removed");
 		}
 	}
-
-	// useEffect(() => {
-	// 	console.log(checkedPages);
-	// }, [checkedPages]);
 
 	const handlePageChecks = (e) => {
 		if (e.target.checked){
@@ -130,20 +149,24 @@ const RemovePageModal = () => {
 		<div className="modal fade" id="removeModal" tabIndex="-1" aria-labelledby="removeModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
-					<div className="modal-body">
+					<div className="modal-header">
+						<img src={images.delete_file} alt="delete_icon" style={{height: "100px", width: "100px"}} />
+						<h5 className="display-6">Remove Pages from a PDF</h5>
 						<button type="button" className="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div className="modal-body">
 						
 						<div className="container container-fluid row col-12 mx-auto">
 
 							<div className="upload-section col-10 col-md-6">
+
+								{err && <Alert message={err} />}
+
 								<div className="wrapper doc-upload d-flex flex-column p-4">
 									<form className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={handleFileInput}>
 										<input type="file" name='file' hidden accept='application/pdf' className={`file-remove-input ${(err) ? "is-invalid" : ""}`} onChange={(e) => setFile(e.target.files[0])} />
 										<i className="fas fa-cloud-upload-alt fs-1"></i>
 										<p className='mt-4 lead'>Browse File to Upload</p>
-										<div className="invalid-feedback">
-											{err}
-										</div>
 									</form>
 
 									{/* Uploading */}
@@ -160,6 +183,10 @@ const RemovePageModal = () => {
 												</div>
 											</div>
 										</li>
+									</section>
+
+									<section className='text-center'>
+										{!err && loading && <Spinner color="text-success" />}
 									</section>
 
 									<section className={`uploaded-area p-3 rounded mb-2 ${(file) ? "" : "d-none"}`}>
@@ -196,6 +223,7 @@ const RemovePageModal = () => {
 									<p className='fw-bold'>file name: {file ? file.name : "No file selected"}</p>
 									<p className='fw-bold'>number of pages: {pages}</p>
 
+									{err && <Alert message={err} />}
 
 									{(pages > 1) ? <>
 										<p className={(file) ? "" : "d-none"}>Select the pages you want to remove</p>
@@ -206,19 +234,25 @@ const RemovePageModal = () => {
 										</div>
 
 										<div className="m-3 me-auto border-0 d-flex flex-row">
-											<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleRemove}>
-												<span>Run</span>
-												<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
-											</button>
-
-											{removedUrl && 
-											<a href={removedUrl} className="text-decoration-none" download={(resultFileName !== "") ? `${resultFileName}.pdf` : "result.pdf"}>
-												<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
-													<span>Download</span>
-													<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+											<section className='text-center'>
+												{!err && submitLoading && <Spinner color="text-success" />}
+											</section>
+											{!submitLoading && <>
+												<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' onClick={handleRemove}>
+													<span>Run</span>
+													<img src={images.play} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
 												</button>
-											</a>
-											}
+												
+												{removedUrl && 
+												<a href={removedUrl} className="text-decoration-none" download={(resultFileName !== "") ? `${resultFileName}.pdf` : "result.pdf"}>
+													<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center'>
+														<span>Download</span>
+														<img src={images.download} alt="" className='ms-2 img-fluid' style={{width: "20px", height: "20px"}}/>
+													</button>
+												</a>
+												}
+											</>}
+
 										</div>
 									</> : <p className='text-danger'>Select a pdf file with more than one page</p>}
 								</div>

@@ -70,16 +70,17 @@ const ocrDocs = async (req, res) => {
 
 const splitFiles = async (req, res) => {
 	const file = req.file;
+	const pageCount = parseInt(req.body.pageCount);
+	
 	const absPath = path.resolve(file.path);
 	const folderName = path.parse(file.filename).name;
 
-	let outputStream = await split.splitPdf(absPath, folderName);
+	let outputStream = await split.splitPdf(absPath, folderName, pageCount);
 
 	const outputFilePath = `documents/${folderName}.zip`
 
 	outputStream.on('finish', () => {
 		let data = fs.readFileSync(outputFilePath);
-		// console.log(data);
 		res.send(data);
 	});
 
@@ -119,15 +120,23 @@ const getBuffer = async (req, res) => {
 	const filename = req.body.name;
 	let buffer = fs.readFileSync(`documents/${filename}`);
 	res.send(buffer); 
+
+	deleteFile(`documents/${filename}`, waitTime);
 }
 
 const removePages = async (req, res) => {
-	const pathToPdf = `documents/${req.body.fileName}`;
-	const pagesList = req.body.pages.map((num) => {
-		return parseInt(num);
-	});
+	const pathToPdf = req.file.path;
+	const checkedPages = req.body.pages;
+	// const pagesList = req.body.pages.map((num) => {
+	// 	return parseInt(num);
+	// });
+	let pages = [];
+	for (let i = 0; i < checkedPages.length; i++) {
+		const page = checkedPages[i];
+		pages.push(parseInt(page));
+	}
 
-	const buffer = await remove.removePages(pagesList, pathToPdf);
+	const buffer = await remove.removePages(pages, pathToPdf);
 
 	const pdfDoc = await PDFDocument.load(buffer);
 	const numberOfPages = pdfDoc.getPages().length;
@@ -135,6 +144,8 @@ const removePages = async (req, res) => {
 	// console.log(numberOfPages);
 
 	res.send(remove.toBuffer(buffer));
+
+	deleteFile(pathToPdf, waitTime);
 
 }
 

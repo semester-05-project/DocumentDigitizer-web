@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { images } from '../javascript/imageImports';
+import url_config from '../url.config.json';
 import Spinner from './Spinner';
 import Alert from './Alert';
 
@@ -43,7 +44,7 @@ const AddPageModal = () => {
 		const formData = new FormData();
         formData.append("file", e.target.files[0]);
         
-        axios.post(`http://localhost:4000/tools/getPdfData`, formData)
+        axios.post(`${url_config.SERVER_URL}/tools/getPdfData`, formData)
             .then(res => {
 				setFileLoading(false);
 				setFileErr(null);
@@ -93,7 +94,7 @@ const AddPageModal = () => {
 			responseType: "arraybuffer"
 		}
         
-        axios.post(`https://document-digitizer-backend.onrender.com/tools/addPages`, formData, config)
+        axios.post(`${url_config.SERVER_URL}/tools/addPages`, formData, config)
             .then(res => {
 				setLoading(false);
 				setErr(null);
@@ -120,8 +121,20 @@ const AddPageModal = () => {
 		<div className="modal fade" id="addPageModal" tabIndex="-1" aria-labelledby="addPageModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
-					<div className="modal-body">
+					<div className="modal-header">
+						<img src={images.add} alt="add_icon" style={{height: "100px", width: "100px"}} />
+						<h5 className="display-6">Add Pages to PDF files</h5>
 						<button type="button" className="btn-close m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div className="modal-body">
+						<span className="description my-2">
+							<ul>
+								<li>You can add a pdf file of some pages to another existing pdf file anywhere you want.</li>
+								<li>Upload the Source Pdf file and the pdf file with the pages you want to add.</li>
+								<li>Select where you want to insert the pages in the source pdf file.</li>
+								<li>Choose if you want to add blank pages to anywhere in the document.</li>
+							</ul>
+						</span>
 						
 						<div className="container container-fluid row col-12 mx-auto">
 

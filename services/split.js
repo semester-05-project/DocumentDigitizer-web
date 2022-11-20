@@ -11,7 +11,7 @@ function toBuffer(ab) {
     return buf;
 }
 
-const splitPdf = async (pathToPdf, folderName) => {
+const splitPdf = async (pathToPdf, folderName, pageCount) => {
 	const outputFile = `documents/${folderName}.zip`;
 	const outputStream = fs.createWriteStream(outputFile);
 
@@ -29,16 +29,22 @@ const splitPdf = async (pathToPdf, folderName) => {
 
 	let pdfBytesArray = {};
 
-    for (let i = 0; i < numberOfPages; i++) {
+	let fileCount = 1;
+    for (let i = 0; i < numberOfPages; i += pageCount) {
 
         // Create a new "sub" document
         const subDocument = await PDFDocument.create();
-        // copy the page at current index
-        const [copiedPage] = await subDocument.copyPages(pdfDoc, [i])
-        subDocument.addPage(copiedPage);
-        const pdfBytes = await subDocument.save()
+
+		for (let j = i; j < pageCount; j++){
+			const [copiedPage] = await subDocument.copyPages(pdfDoc, [j]);
+			subDocument.addPage(copiedPage);
+		}
+        
+        const pdfBytes = await subDocument.save();
+
 		pdfBytesArray[`file-${i+1}`] = pdfBytes;
-		archive.append(toBuffer(pdfBytes), { name: `file-${i+1}.pdf` });
+		archive.append(toBuffer(pdfBytes), { name: `file-${fileCount}.pdf` });
+		fileCount++;
 		
         // await writePdfBytesToFile(`documents/${folderName}/file-${i + 1}.pdf`, pdfBytes);
     }
