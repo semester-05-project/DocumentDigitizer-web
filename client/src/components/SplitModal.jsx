@@ -157,7 +157,7 @@ const SplitModal = () => {
 
 											<div className="form-floating mb-3 col">
 												<select className="form-select" id="sizeType" aria-label="Floating label select">
-													<option value={1024} selected>KB</option>
+													<option value={1024} defaultValue>KB</option>
 													<option value={1024*1024}>MB</option>
 												</select>
 												<label htmlFor="sizeType">KB/MB</label>

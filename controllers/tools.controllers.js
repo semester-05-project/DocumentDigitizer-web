@@ -127,9 +127,7 @@ const getBuffer = async (req, res) => {
 const removePages = async (req, res) => {
 	const pathToPdf = req.file.path;
 	const checkedPages = req.body.pages;
-	// const pagesList = req.body.pages.map((num) => {
-	// 	return parseInt(num);
-	// });
+
 	let pages = [];
 	for (let i = 0; i < checkedPages.length; i++) {
 		const page = checkedPages[i];
@@ -140,9 +138,6 @@ const removePages = async (req, res) => {
 
 	const pdfDoc = await PDFDocument.load(buffer);
 	const numberOfPages = pdfDoc.getPages().length;
-
-	// console.log(numberOfPages);
-
 	res.send(remove.toBuffer(buffer));
 
 	deleteFile(pathToPdf, waitTime);
