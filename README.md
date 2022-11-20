@@ -4,7 +4,7 @@
 
 <table>
   <tr>
-    <td width="15%">Logo</td>
+    <td width="15%"><image src="https://github.com/semester-05-project/DocumentDigitizer-web/blob/main/client/src/images/Logo_ScanME.PNG"/></td>
     <td width="75%"><h1>SCAN ME</h1>
                     <i> Document Digitizer : A Document Scanning and Digitizing Application</i><br><br>
     </td>
