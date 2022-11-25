@@ -21,7 +21,7 @@ describe('Render login page', () => {
         );
     });
 
-    it('renders login page', () => {
+    it('renders heading', () => {
         const headingElement = screen.getByRole('heading', { name: /Login/i });
         expect(headingElement).toBeInTheDocument();
     });
@@ -58,18 +58,30 @@ describe('Form behaviour', () => {
         fireEvent.change(passwordInputElement, { target: { value: "" } });
         fireEvent.click(buttonElement);
         expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument();
+    });
 
-        // to have only password field empty when submitting
-        fireEvent.change(emailInputElement, { target: { value: "test@test.com" } });
+	it('Empty password should display errors and should not allow form submit', () => {
+		const emailInputElement = screen.getByPlaceholderText(/name@example.com/i);
+        const passwordInputElement = screen.getByPlaceholderText(/admin1234/i);
+        const buttonElement = screen.getByText(/Submit/i);
+
+		fireEvent.change(emailInputElement, { target: { value: "test@test.com" } });
+		fireEvent.change(passwordInputElement, { target: { value: "" } });
         fireEvent.click(buttonElement);
         expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument();
+	});
 
-        // to have only email field empty when submitting
-        // fireEvent.change(emailInputElement, { target: { value: "" } });
-        // fireEvent.change(passwordInputElement, { target: { value: "admin1234" } });
-        // fireEvent.click(buttonElement);
+	it('Empty email should display errors and should not allow form submit', () => {
+		const emailInputElement = screen.getByPlaceholderText(/name@example.com/i);
+        const passwordInputElement = screen.getByPlaceholderText(/admin1234/i);
+        const buttonElement = screen.getByText(/Submit/i);
+
+		fireEvent.change(emailInputElement, { target: { value: "" } });
+		fireEvent.change(passwordInputElement, { target: { value: "password" } });
+        fireEvent.click(buttonElement);
         expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument();
-    });
+	});
+	
 
     it('Signing in with wrong email should throw not found error', async () => {
         let error = '';
@@ -85,20 +97,37 @@ describe('Form behaviour', () => {
 
 	it('Should login with correct credentials', async () => {
         const user = await signInWithEmailAndPassword(auth, 'akash_tharuka@yahoo.com', 'test1234');
-        await waitFor(() => expect(user.user).toBeTruthy());
+        await waitFor(() => expect(user.user).toBeTruthy()); 
+		// const emailInputElement = screen.getByPlaceholderText(/name@example.com/i);
+        // const passwordInputElement = screen.getByPlaceholderText(/admin1234/i);
+        // const buttonElement = screen.getByText(/Submit/i);
+
+		// fireEvent.change(emailInputElement, { target: { value: "akash_tharuka@yahoo.com" } });
+		// fireEvent.change(passwordInputElement, { target: { value: "test1234" } });
+        // fireEvent.click(buttonElement);
+
+		// const user = localStorage.getItem('user');
+		// await waitFor(() => expect(user.email).toEqual("akash_tharuka@yahoo.com")); 
     });
 
-    // it('Signing in with wrong password should throw wrong password error', async () => {
-    //     let error = '';
-    //     try{
-    //         await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword');
-    //     }
-    //     catch (err){
-    //         error = err.toString();
-    //     }
+    it('Signing in with wrong password should throw an error', async () => {
+        // let error = '';
+        // try{
+        //     await signInWithEmailAndPassword(auth, 'test@test.com', 'wrongpassword');
+        // }
+        // catch (err){
+        //     error = err.toString();
+        // }
+		const emailInputElement = screen.getByPlaceholderText(/name@example.com/i);
+        const passwordInputElement = screen.getByPlaceholderText(/admin1234/i);
+        const buttonElement = screen.getByText(/Submit/i);
 
-    //     expect(error).toEqual('FirebaseError: Firebase: Error (auth/wrong-password).');
-    // });
+		fireEvent.change(emailInputElement, { target: { value: "test2@test.com" } });
+		fireEvent.change(passwordInputElement, { target: { value: "wrongpassword" } });
+		fireEvent.click(buttonElement);
+
+        await waitFor(() => expect(screen.getByText(/Authentication Error/i)).toBeInTheDocument()); 
+    });
 
     // it('Signing in with wrong password too many times should throw too many requests error', async () => {
     //     let error = '';

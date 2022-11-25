@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from './Spinner';
 import Alert from './Alert';
+import url_config from '../url.config.json';
+import Toast from './Toast';
 // import { v4 as uuidv4 } from 'uuid';
 
 // extension without the dot
@@ -14,8 +16,6 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
     const [fileError, setFileError] = useState(null);
 	const [err, setErr] = useState(null);
 	const [loading, setLoading] = useState(false);
-
-	const localhostUrl = 'http://localhost:4000';
 
     const handleFileInput = (e, fileInputClass) => {
 		// console.log(mimeType);
@@ -31,7 +31,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
                 let splitName = fileName.split('.');
                 fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
             }
-            uploadFile(fileName, endpoint, extension);  
+            uploadFile(fileName, endpoint, extension); 
         }
     }, [file]);
 
@@ -44,9 +44,9 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             setProgress(0);
             setFileError(null);
         }
-        else{
-            setFileError(`Only .${extension} files are allowed`);
-        }
+        // else{
+        //     setFileError(`Only .${extension} files are allowed`);
+        // }
         
     }
     
@@ -62,7 +62,7 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
             },
             responseType: "arraybuffer"
         }
-        axios.post(`http://localhost:4000/api/${endpoint}`, formData, config)
+        axios.post(`${url_config.SERVER_URL}/api/${endpoint}`, formData, config)
             .then(res => {
 				setLoading(false);
 				setErr(null);
@@ -106,8 +106,8 @@ const UploadModal = ({ id, title, fileInputClass, mimeType, extension, endpoint,
 
 						{err && <Alert message={err} />}
 
-                        <form action="#" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
-                            <input type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} accept={mimeType} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
+                        <form data-testid="upload-modal-form" className={`p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation ${color}`} noValidate onClick={(e) => handleFileInput(e, fileInputClass)}>
+                            <input data-testid={fileInputClass} type="file" placeholder={fileInputClass} name='file' hidden className={`form-control file-input ${fileInputClass} ${(fileError) ? "is-invalid" : ""}`} accept={mimeType} onChange={(e) => handleFileUpload(e, mimeType, extension)} />
                             <i className="fas fa-cloud-upload-alt fs-1"></i>
                             <p className='mt-4 lead'>Browse File to Upload</p>
                             <div className="invalid-feedback">

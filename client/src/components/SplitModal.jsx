@@ -69,7 +69,7 @@ const SplitModal = () => {
 	}
 
 	return (
-		<div className="modal fade" id="splitModal" tabIndex="-1" aria-labelledby="splitModal" aria-hidden="true">
+		<div data-testid="split-modal" className="modal fade" id="splitModal" tabIndex="-1" aria-labelledby="splitModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
 					<div className="modal-header">
@@ -145,7 +145,7 @@ const SplitModal = () => {
 									</div>
 								</div>
 
-								<div className="split-files card w-100 my-4">
+								{/* <div className="split-files card w-100 my-4">
 									<div className="card-body">
 										<h5 className="topic fs-5 mb-4">Split by size</h5>
 
@@ -181,7 +181,7 @@ const SplitModal = () => {
 											}
 										</div>
 									</div>
-								</div>
+								</div> */}
 
 								<div className="output-settings card m-3 mx-auto w-100">
 									<div className="card-body">

@@ -135,7 +135,10 @@ const CloudStorage = () => {
     }, [doc]);
 
     useEffect(() => {
-        listAllFiles(currentUser.uid);
+		if (currentUser){
+			listAllFiles(currentUser.uid);
+		}
+        
     }, []);
 
 	const handleDelete = (e) => {
@@ -157,34 +160,34 @@ const CloudStorage = () => {
 		});
 	}
 
-	const handleEditForm = (e) => {
-		e.preventDefault();
+	// const handleEditForm = (e) => {
+	// 	e.preventDefault();
 
-		const section = e.target.parentElement.parentElement.parentElement;
-		const nameTag = section.querySelector('.name');
-		const editForm = section.querySelector('.edit-form');
-		const input = section.querySelector('input');
-		nameTag.classList.toggle('d-none');
-		editForm.classList.toggle('d-none');
-		input.classList.remove('is-invalid');
-	}
+	// 	const section = e.target.parentElement.parentElement.parentElement;
+	// 	const nameTag = section.querySelector('.name');
+	// 	const editForm = section.querySelector('.edit-form');
+	// 	const input = section.querySelector('input');
+	// 	nameTag.classList.toggle('d-none');
+	// 	editForm.classList.toggle('d-none');
+	// 	input.classList.remove('is-invalid');
+	// }
 
-	const handleEditSubmit = (e) => {
-		e.preventDefault();
+	// const handleEditSubmit = (e) => {
+	// 	e.preventDefault();
 		
-		const section = e.target.parentElement.parentElement.parentElement;
-		const nameTag = section.querySelector('.name');
-		const editForm = section.querySelector('.edit-form');
-		const input = section.querySelector('input');
+	// 	const section = e.target.parentElement.parentElement.parentElement;
+	// 	const nameTag = section.querySelector('.name');
+	// 	const editForm = section.querySelector('.edit-form');
+	// 	const input = section.querySelector('input');
 
-		if (input.value !== ""){
-			input.classList.remove('is-invalid');
-			editForm.submit();
-		}
-		else{
-			input.classList.add('is-invalid');
-		}
-	}
+	// 	if (input.value !== ""){
+	// 		input.classList.remove('is-invalid');
+	// 		editForm.submit();
+	// 	}
+	// 	else{
+	// 		input.classList.add('is-invalid');
+	// 	}
+	// }
 
     const getAllFiles = () => {
         const itemNames = [];
@@ -193,7 +196,7 @@ const CloudStorage = () => {
             if (! itemNames.includes(item.name)){
                 itemNames.push(item.name);
                 docElementList.push(
-                    <section className={`uploaded-area p-3 rounded mb-2`} key={uuid()}>
+                    <section data-testid="file-items" className={`uploaded-area p-3 rounded mb-2`} key={uuid()}>
                         <li className="row d-flex">
                             <div className="content d-flex col-9">
                                 <i className="fas fa-file-alt col-1 fs-3 align-self-center"></i>
@@ -269,7 +272,7 @@ const CloudStorage = () => {
 
 							{err && <Alert message={err} />}
 
-							<form className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={handleDocInput}>
+							<form data-testid="cloudstorage-upload-form" className='p-4 d-flex flex-column text-center justify-content-center rounded my-2 mb-4 needs-validation' noValidate onClick={handleDocInput}>
 								<input type="file" name='file' hidden className={`doc-input doc-input ${(err) ? "is-invalid" : ""}`} onChange={handleDocUpload} accept="application/pdf" />
 								<i className="fas fa-cloud-upload-alt fs-1"></i>
 								<p className='mt-4 lead'>Browse File to Upload</p>

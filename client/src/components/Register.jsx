@@ -95,19 +95,19 @@ const Register = () => {
             .then(async (userCredential) => {
                 // console.log(user);
                 const user = userCredential.user;
-                console.log(user);
+                // console.log(user);
 
                 await addDoc(collection(db, 'users'), {
                     email: email,
                     username: username
                 }).then((res) => {
-                    console.log(res)
+                    // console.log(res);
                 }).catch((err) => { console.log(err) });
 
                 window.location = "/login";
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 setEmailError("Email already registered");
             })
 

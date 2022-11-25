@@ -118,7 +118,7 @@ const AddPageModal = () => {
 	}
 
 	return (
-		<div className="modal fade" id="addPageModal" tabIndex="-1" aria-labelledby="addPageModal" aria-hidden="true">
+		<div data-testid="addPage-modal" className="modal fade" id="addPageModal" tabIndex="-1" aria-labelledby="addPageModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
 					<div className="modal-header">

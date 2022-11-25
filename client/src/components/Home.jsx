@@ -18,7 +18,7 @@ const Home = () => {
     return (
         <div>
             <Navigation />
-            <section className='hero bg-light row m-0 p-0 row justify-content-center'>
+            <section data-testid="hero-section" className='hero bg-light row m-0 p-0 row justify-content-center'>
                 <img src={images.bg_scanning} alt="" className='hero-image p-0 m-0' />
                 <div className="hero-text col-6 px-4 m-0 text-center position-absolute">
                     <h1 className="display-5">Digitize your documents & make your lives easier</h1>

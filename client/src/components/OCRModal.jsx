@@ -88,7 +88,7 @@ const OCRModal = () => {
 	}
 
 	return (
-		<div className="modal fade" id="ocrModal" tabIndex="-1" aria-labelledby="ocrModal" aria-hidden="true">
+		<div data-testid="ocr-modal" className="modal fade" id="ocrModal" tabIndex="-1" aria-labelledby="ocrModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
 					<div className="modal-header">

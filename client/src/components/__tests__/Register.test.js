@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../javascript/firebase'
@@ -38,7 +38,7 @@ describe('Register render page', () => {
 
     it('renders a submit button', () => {
         const submitButton = screen.getByText('Submit');
-        expect(submitButton).toBeInTheDocument();
+        expect(submitButton).toBeInTheDocument(); 
     });
     
 });
@@ -201,6 +201,37 @@ describe('Form behaviour', () => {
             expect(error).toEqual('FirebaseError: Firebase: Error (auth/email-already-in-use).');
         });
     });
+	
+	describe('Firebase error handling', () => {
+
+		beforeEach(() => {
+            render(
+                <MockRegister />
+            );
+        });
+
+		it('Already existing email', async () => {
+			const usernameElement = screen.getByPlaceholderText(/akashtharuka/i);
+			const emailElement = screen.getByPlaceholderText(/name@example.com/i);
+			const passwordElement = screen.getAllByPlaceholderText(/admin1234/i)[0];
+			const confirmPasswordElement = screen.getAllByPlaceholderText(/admin1234/i)[1];
+
+			const submitButton = screen.getByText('Submit');
+
+			fireEvent.change(usernameElement, { target: { value: "testUsername" } });
+			fireEvent.change(emailElement, { target: { value: "test2@test.com" } });
+			fireEvent.change(passwordElement, { target: { value: "test1234" } });
+			fireEvent.change(confirmPasswordElement, { target: { value: "test1234" } });
+
+			fireEvent.click(submitButton);
+
+			await waitFor(() => expect(screen.getByText(/Email already registered/i)).toBeInTheDocument());
+
+
+		});
+		
+	});
+	
     
 });
 

@@ -13,7 +13,7 @@ const Navigation = () => {
 
             <div className="container-fluid row">
 
-				<a className="btn bg-transparent text-light col-1" data-bs-toggle="offcanvas" href="#profile" role="button" aria-controls="profile">
+				<a className="btn bg-transparent text-light col-1" data-bs-toggle="offcanvas" href="#profile" role="button" aria-controls="profile" data-testid="cloudStorage-menu">
 					<i className="fa fa-bars text-white bg-transparent cursor-pointer" aria-hidden="true"></i>
 				</a>
 				
@@ -56,7 +56,7 @@ const Navigation = () => {
                                 <button className='btn btn-light px-4 mx-3'>Register</button>
                             </Link>}
                             {currentUser && <p className='greeting my-auto'>Hello Akash!!!</p>}
-                            {currentUser && <button className='logout btn btn-outline-danger px-4 mx-3' data-bs-toggle="modal" data-bs-target="#logout-modal" data-bs-dismiss="modal">Logout</button>}
+                            {currentUser && <button data-testid="logout-modal-btn" className='logout btn btn-outline-danger px-4 mx-3' data-bs-toggle="modal" data-bs-target="#logout-modal" data-bs-dismiss="modal">Logout</button>}
 
                             <Logout />
                         </li>

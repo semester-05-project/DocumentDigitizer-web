@@ -40,10 +40,9 @@ const Login = () => {
                     // console.log(userCredential)
                     const user = userCredential.user;
                     dispatch({ type: "LOGIN", payload: user });
-                    window.location = "/profile";
+                    // window.location = "/profile";
                 })
                 .catch((error) => {
-                    console.log(error.toString());
                     setError("Authentication Error");
                 })
         }
@@ -68,7 +67,7 @@ const Login = () => {
                                 <input type="password" className={`form-control ${error ? "is-invalid" : ""}`} id='pswInput' placeholder='admin1234' onChange={e => setPassword(e.target.value)} />
                                 <label htmlFor="pswInput">Password</label>
                             </div>
-                            <div className={`err-div ${(error == "") ? "d-none" : ""} mb-2`}>
+                            <div data-testid="login-error-div" className={`err-div ${(error == "") ? "d-none" : ""} mb-2`}>
                                 <small className="err-msg text-danger">
                                     <i className="fa fa-exclamation-circle me-2 text-danger"></i>
                                     {error}

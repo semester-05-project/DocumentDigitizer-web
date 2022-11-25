@@ -9,7 +9,7 @@ const Convertors = () => {
 			<div className="features-convertors col-12 d-flex flex-row flex-wrap justify-content-start">
 
 				{/* Docx to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#docxToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#docxToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -35,7 +35,7 @@ const Convertors = () => {
 				/>
 
 				{/* Doc to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#docToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#docToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -61,7 +61,7 @@ const Convertors = () => {
 				/>
 
 				{/* Xlsx to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#xlsxToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#xlsxToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -87,7 +87,7 @@ const Convertors = () => {
 				/>
 
 				{/* Xls to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#xlsToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#xlsToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -113,7 +113,7 @@ const Convertors = () => {
 				/>
 
 				{/* Pptx to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pptxToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pptxToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -139,7 +139,7 @@ const Convertors = () => {
 				/>
 
 				{/* Ppt to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pptToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pptToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -165,7 +165,7 @@ const Convertors = () => {
 				/>
 
 				{/* Png to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pngToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pngToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -191,7 +191,7 @@ const Convertors = () => {
 				/>
 
 				{/* Jpg to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#jpgToPdf">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#jpgToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -217,7 +217,7 @@ const Convertors = () => {
 				/>
 
 				{/* Webp to pdf */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#webpToPdf">
+				{/* <div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#webpToPdf" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -228,10 +228,10 @@ const Convertors = () => {
 							<span className='convertor-type ms-2 fw-bold'>Webp to Pdf</span>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 				{/* Modal */}
-				<UploadModal 
+				{/* <UploadModal 
 					id="webpToPdf"
 					title="WEBP To PDF Convertor"
 					fileInputClass="webp-input"
@@ -240,10 +240,10 @@ const Convertors = () => {
 					endpoint=''
 					endpoint2='convertDocument'
 					color='webp'
-				/>
+				/> */}
 
 				{/* Pdf to Png */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToPng">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToPng" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -269,7 +269,7 @@ const Convertors = () => {
 				/>
 
 				{/* Pdf to Jpg */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToJpg">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToJpg" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -295,7 +295,7 @@ const Convertors = () => {
 				/>
 
 				{/* Pdf to Webp */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToWebp">
+				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToWebp" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -321,7 +321,7 @@ const Convertors = () => {
 				/>
 
 				{/* Pdf to html */}
-				<div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToHTML">
+				{/* <div className="convertor m-3" data-bs-toggle="modal" data-bs-target="#pdfToHTML" data-testid="convertor">
 					<div className="card d-flex flex-row">
 						<div className="card-body d-flex align-items-center">
 							<div className="card">
@@ -332,10 +332,10 @@ const Convertors = () => {
 							<span className='convertor-type ms-2 fw-bold'>Pdf to HTML</span>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 				{/* Modal */}
-				<UploadModal 
+				{/* <UploadModal 
 					id="pdfToHTML"
 					title="PDF to HTML Convertor"
 					fileInputClass="pdf-to-html-input"
@@ -344,7 +344,7 @@ const Convertors = () => {
 					endpoint=''
 					endpoint2='convertDocument'
 					color='pptx'
-				/>
+				/> */}
 
 
 			</div>

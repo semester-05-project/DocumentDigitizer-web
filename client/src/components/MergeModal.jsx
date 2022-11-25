@@ -175,7 +175,7 @@ const MergeModal = () => {
 
 
 	return (
-		<div className="modal fade" id="mergeModal" tabIndex="-1" aria-labelledby="mergeModal" aria-hidden="true">
+		<div data-testid="merge-modal" className="modal fade" id="mergeModal" tabIndex="-1" aria-labelledby="mergeModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
 					<div className="modal-header">
@@ -197,9 +197,9 @@ const MergeModal = () => {
 						
 						<div className="files-to-merge card m-3 mx-auto w-100" style={{minHeight: "12rem"}}>
 							<div className="card-body">
-								<input type="file" accept='application/pdf' className='file-input' onChange={e => handleAddFiles(e.target.files)} multiple hidden />
-								<button className='btn btn-outline-info mb-2 mx-2' onClick={e => handleFileInput(e)}>Add</button>
-								<button className='btn btn-outline-danger mb-2 mx-2' onClick={handleClearAll}>Clear All</button>
+								<input data-testid="merge-upload-input" type="file" accept='application/pdf' className='file-input' onChange={e => handleAddFiles(e.target.files)} multiple hidden />
+								<button data-testid="merge-upload" className='btn btn-outline-info mb-2 mx-2' onClick={e => handleFileInput(e)}>Add</button>
+								<button data-testid="merge-upload-clear" className='btn btn-outline-danger mb-2 mx-2' onClick={handleClearAll}>Clear All</button>
 
 								{err && <Alert message={err} />}
 
@@ -255,7 +255,7 @@ const MergeModal = () => {
 						</div>
 
 						<div className="card m-3 mx-auto border-0 d-flex flex-row w-100">
-							<button className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' disabled={(err) ? true : false} onClick={handleFileUpload}>
+							<button data-testid="mergeModal-run" className='btn btn-outline-success mx-2 px-4 d-flex align-items-center' disabled={(err) ? true : false} onClick={handleFileUpload}>
 								{!err && loading && <Spinner color="text-info" />}
 								{! loading && <>
 									<span>Run</span>

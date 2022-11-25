@@ -146,7 +146,7 @@ const RemovePageModal = () => {
 	}
 
 	return (
-		<div className="modal fade" id="removeModal" tabIndex="-1" aria-labelledby="removeModal" aria-hidden="true">
+		<div data-testid="removePage-modal" className="modal fade" id="removeModal" tabIndex="-1" aria-labelledby="removeModal" aria-hidden="true">
 			<div className="modal-dialog modal-fullscreen modal-dialog-scrollable">
 				<div className="modal-content">
 					<div className="modal-header">
